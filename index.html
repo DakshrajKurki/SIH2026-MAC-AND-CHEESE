@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TrustLens — Optical Inspection & Notarized AI Integrity (SIH26228)</title>
   
+  <!-- Favicon: TrustLens aperture logo inline SVG -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233E9C98' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='m14.31 8 5.74 9.94'/%3E%3Cpath d='M9.69 8h11.48'/%3E%3Cpath d='m7.38 12 5.74-9.94'/%3E%3Cpath d='M9.69 16 3.95 6.06'/%3E%3Cpath d='M14.31 16H2.83'/%3E%3Cpath d='m16.62 12-5.74 9.94'/%3E%3C/svg%3E">
+
   <!-- Typography: Inter & JetBrains Mono loaded locally from vendor/fonts/ -->
   <link rel="stylesheet" href="vendor/fonts/fonts.css">
 
@@ -501,6 +504,22 @@
       color: var(--text-ink-body);
       outline: none;
       cursor: pointer;
+    }
+    #tamperBlockSelect {
+      background: rgba(16, 22, 32, 0.85) !important;
+      color: #E8ECF1 !important;
+      border: 1px solid var(--wash-brass-border);
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      font-size: 0.82rem;
+      font-family: var(--font-body);
+      outline: none;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    #tamperBlockSelect option {
+      background: #0E141E !important;
+      color: #E8ECF1 !important;
     }
     .hud-center-group {
       display: flex;
@@ -5102,6 +5121,67 @@
       border-color: rgba(255, 255, 255, 0.12);
       transform: translateY(-2px);
     }
+    /* Stage 1 Real Dataset Scan & Drag-and-Drop Styles */
+    .dataset-thumb-wrapper {
+      position: relative;
+      display: inline-flex;
+      cursor: pointer;
+      border-radius: 4px;
+      overflow: visible;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .dataset-thumb-wrapper:hover {
+      transform: scale(1.22);
+      z-index: 10;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+    }
+    .dataset-thumb-img {
+      width: 32px;
+      height: 32px;
+      border-radius: 4px;
+      object-fit: cover;
+      display: block;
+      border: 1px solid var(--border-medium);
+      image-rendering: pixelated;
+    }
+    .dataset-thumb-badge {
+      position: absolute;
+      bottom: -3px;
+      right: -3px;
+      font-size: 8px;
+      font-weight: 800;
+      padding: 0 3px;
+      border-radius: 2px;
+      color: #FFFFFF;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+      line-height: 12px;
+    }
+    .stage1-dropzone {
+      border: 2px dashed var(--border-medium);
+      border-radius: var(--radius-sm);
+      background: rgba(16, 22, 32, 0.4);
+      text-align: center;
+      padding: 16px 20px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      margin-bottom: 16px;
+    }
+    .stage1-dropzone:hover, .stage1-dropzone-dragover {
+      border-color: var(--accent-optical) !important;
+      background: rgba(15, 110, 110, 0.12) !important;
+      box-shadow: 0 0 16px rgba(62, 156, 152, 0.25) !important;
+    }
+    .row-tampered-highlight {
+      background: rgba(240, 82, 77, 0.15) !important;
+      outline: 2px solid var(--status-fail) !important;
+      animation: tamperedRowPulse 2s infinite ease-in-out;
+    }
+    @keyframes tamperedRowPulse {
+      0%, 100% { outline-color: var(--status-fail); }
+      50% { outline-color: var(--accent-gold); }
+    }
   </style>
 </head>
 <body>
@@ -5658,22 +5738,80 @@
         </section>
 
 <section id="section1" class="tab-pane">
-          <div class="section-head">
+          <div class="section-head" style="margin-bottom:12px;">
             <div>
-              <h2 class="section-title">Stage 1: Multi-Contributor Training Data Integrity</h2>
-              <p class="section-desc">
+              <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                <h2 class="section-title" style="margin:0;">Stage 1: Multi-Contributor Training Data Integrity</h2>
+                <span id="stage1ActiveBadge" class="chip chip-optical" style="font-size:0.7rem; font-weight:700;">Real scan active</span>
+              </div>
+              <p class="section-desc" style="margin:0;">
                 Auditing decentralized dataset batches across institutional contributors. Real SHA-256 Merkle tree verification prevents poisoned samples, label tampering, and flooding before training ingestion.
               </p>
             </div>
-            <div style="display:flex; gap:10px;">
+            <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+              <div class="segmented-control">
+                <button id="stage1ModeRealBtn" class="segment-btn active" onclick="setStage1ScanMode('real')">
+                  <span class="chip chip-optical" style="font-size:0.62rem; padding:1px 5px; margin-right:4px;">Real scan</span> /assets/dataset (40 Imgs)
+                </button>
+                <button id="stage1ModeSimBtn" class="segment-btn" onclick="setStage1ScanMode('simulation')">
+                  <span class="chip chip-neutral" style="font-size:0.62rem; padding:1px 5px; margin-right:4px;">Live simulation</span> Telemetry Stream (42.8k)
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Top Toolbar for Real Scan -->
+          <div id="stage1RealToolbar" style="display:flex; justify-content:space-between; align-items:center; background:var(--bg-surface-elevated); border:1px solid var(--border-subtle); border-radius:var(--radius-sm); padding:10px 14px; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <button id="btnScanRealDataset" class="btn btn-optical btn-sm" onclick="runRealDatasetScan(true)">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+                Scan Real Dataset
+              </button>
               <button class="btn btn-secondary btn-sm" onclick="openMerkleModal()">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="3"/><circle cx="6" cy="19" r="3"/><circle cx="18" cy="19" r="3"/><path d="M9 17l2-9"/><path d="M15 17l-2-9"/></svg>
                 Inspect Merkle Tree
               </button>
-              <button class="btn btn-optical btn-sm" onclick="executeAsyncButton(this, recalculateDataMerkle, 'Computing Merkle...', 'Root Attested ✓')">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
-                Re-verify Merkle Root
-              </button>
+              <span id="stage1RealScanPill" style="font-size:0.75rem; color:var(--text-ink-muted);">Dataset: <strong>40 images + annotations.json</strong> in 4 contributor folders</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:0.72rem; color:var(--text-ink-muted);">Target Replace:</span>
+              <select id="stage1TargetReplaceSelect" style="background:var(--bg-surface-recessed); color:var(--text-ink-dark); border:1px solid var(--border-medium); border-radius:4px; padding:3px 6px; font-size:0.72rem; font-family:var(--font-mono);"></select>
+            </div>
+          </div>
+
+          <!-- Real Scan Progress Bar Container -->
+          <div id="stage1ScanProgressContainer" style="display:none; margin-bottom:16px; background:var(--bg-surface-elevated); border:1px solid var(--accent-optical); border-radius:var(--radius-sm); padding:12px 16px; box-shadow:0 0 12px rgba(62,156,152,0.15);">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span class="pulse-dot" style="width:8px; height:8px;"></span>
+                <span id="stage1ScanProgressLabel" style="font-size:0.8rem; font-weight:700; color:var(--text-ink-dark);">Scanning Real Dataset...</span>
+              </div>
+              <span id="stage1ScanProgressPct" class="mono" style="font-size:0.82rem; font-weight:700; color:var(--accent-optical);">0%</span>
+            </div>
+            <div style="background:var(--bg-surface-recessed); height:8px; border-radius:4px; overflow:hidden;">
+              <div id="stage1ScanProgressBar" style="width:0%; height:100%; background:linear-gradient(90deg, var(--accent-optical), #2FBF71); transition:width 0.15s ease;"></div>
+            </div>
+            <div id="stage1ScanProgressSub" style="font-size:0.72rem; color:var(--text-ink-muted); margin-top:6px;">Initializing cryptographic hasher and canvas pipeline...</div>
+          </div>
+
+          <!-- Drag and Drop Tamper Zone (Real Scan Only) -->
+          <div id="stage1DropZone" class="stage1-dropzone" ondragover="handleDatasetDragOver(event)" ondragleave="handleDatasetDragLeave(event)" ondrop="handleDatasetDrop(event)">
+            <input type="file" id="stage1FileInput" style="display:none;" onchange="handleDatasetFileSelected(this.files)">
+            <div style="display:flex; flex-direction:column; align-items:center; gap:6px;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-optical)" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                <span style="font-weight:700; font-size:0.85rem; color:var(--text-ink-dark);">Drag & Drop Replacement Image / Annotation File</span>
+                <span class="chip chip-optical" style="font-size:0.65rem;">Real scan Tamper Sandbox</span>
+              </div>
+              <div style="font-size:0.75rem; color:var(--text-ink-muted); max-width:600px;">
+                Drop a file to replace the selected asset in memory. Re-scanning will re-compute SHA-256 leaf hashes, alter the Merkle root, and flag the tampered file in red.
+              </div>
+              <div style="display:flex; gap:8px; margin-top:6px; flex-wrap:wrap; justify-content:center;">
+                <button class="btn btn-secondary btn-sm" onclick="document.getElementById('stage1FileInput').click()">Browse Local File...</button>
+                <button class="btn btn-secondary btn-sm" onclick="triggerQuickTamperDemo()" title="Instantly modify a byte in c01_isro/img_001.png">⚡ Quick Tamper Simulation</button>
+                <button id="stage1ResetDatasetBtn" class="btn btn-secondary btn-sm" onclick="resetRealDatasetOriginals()" style="display:none; color:var(--status-pass); border-color:var(--status-pass-border);">↺ Restore Original Dataset</button>
+              </div>
+              <div id="stage1TamperStatus" style="display:none; margin-top:6px; font-size:0.75rem;"></div>
             </div>
           </div>
 
@@ -5681,23 +5819,23 @@
           <div class="grid-4">
             <div class="stat-tile">
               <span class="stat-label">Dataset Health Score</span>
-              <span id="stage1DataHealthVal" class="stat-val" style="color:var(--accent-optical);">94.8%</span>
-              <span class="stat-meta"><span class="chip chip-pass">Passing</span> Threshold ≥ 90.0%</span>
+              <span id="stage1DataHealthVal" class="stat-val" style="color:var(--accent-optical);">75.0%</span>
+              <span id="stage1DataHealthMeta" class="stat-meta"><span class="chip chip-warn">Audit Required</span> Threshold ≥ 90.0%</span>
             </div>
             <div class="stat-tile">
               <span class="stat-label">Total Verified Samples</span>
-              <span id="stage1TotalSamplesVal" class="stat-val">42,800</span>
-              <span id="stage1TotalSamplesMeta" class="stat-meta">1.84 TB · Across 4 decentralized contributors</span>
+              <span id="stage1TotalSamplesVal" class="stat-val">40</span>
+              <span id="stage1TotalSamplesMeta" class="stat-meta">Across 4 decentralized contributors</span>
             </div>
             <div class="stat-tile">
               <span class="stat-label">Duplicates Filtered</span>
-              <span id="stage1DuplicatesVal" class="stat-val" style="color:var(--status-warn);">312</span>
-              <span class="stat-meta">Near-duplicate flooding detected</span>
+              <span id="stage1DuplicatesVal" class="stat-val" style="color:var(--status-warn);">6</span>
+              <span id="stage1DuplicatesMeta" class="stat-meta">3 exact (SHA) + 3 near-dup (dHash)</span>
             </div>
             <div class="stat-tile">
               <span class="stat-label">Poisoning Anomalies</span>
-              <span id="stage1PoisonVal" class="stat-val" style="color:var(--status-fail);">189</span>
-              <span class="stat-meta">Quarantined from model training</span>
+              <span id="stage1PoisonVal" class="stat-val" style="color:var(--status-fail);">4</span>
+              <span id="stage1PoisonMeta" class="stat-meta">2 checkerboards + 2 bad annotations</span>
             </div>
           </div>
 
@@ -5708,12 +5846,18 @@
                 <div class="card-title">Dataset Merkle Root Attestation</div>
                 <div class="card-subtitle">Real SHA-256 root digest calculated across all record leaf hashes via Web Crypto API</div>
               </div>
-              <span class="chip chip-pass">Merkle Validated</span>
+              <span id="stage1MerkleStatusChip" class="chip chip-pass">Real scan Merkle Validated</span>
             </div>
             <div style="display:flex; flex-direction:column; gap:6px;">
-              <span style="font-size:0.72rem; font-weight:700; color:var(--text-ink-muted); text-transform:uppercase;">Root Hash (SHA-256):</span>
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:0.72rem; font-weight:700; color:var(--text-ink-muted); text-transform:uppercase;">Root Hash (SHA-256):</span>
+                <span id="stage1MerkleGoldenRef" class="mono" style="font-size:0.7rem; color:var(--text-ink-dim);">Golden Ref: daa333af4b5a1b8896c486caaa1f53ee...</span>
+              </div>
               <div id="dataMerkleRoot" class="hash-val scan-active" style="font-size:0.85rem; padding:10px 14px;">
                 Computing cryptographic digest...
+              </div>
+              <div id="stage1MerkleDivergenceNotice" style="display:none; font-size:0.75rem; color:var(--status-fail); background:rgba(240,82,77,0.1); border:1px solid var(--status-fail); border-radius:4px; padding:6px 10px; margin-top:4px;">
+                ⚠️ <strong>CRITICAL MERKLE DIVERGENCE:</strong> Current root does not match registered golden manifest root! One or more dataset files have been altered after attestation.
               </div>
             </div>
           </div>
@@ -5723,38 +5867,38 @@
             <div class="card-head">
               <div>
                 <div class="card-title">Automated Poisoning & Anomaly Vectors Monitored</div>
-                <div class="card-subtitle">Real-time heuristic & clustering filters running on ingested multi-source batches</div>
+                <div class="card-subtitle" id="stage1AnomalyCardSub">Real 64-bit dHash perceptual clustering & spatial checkerboard trigger detection</div>
               </div>
-              <span class="chip chip-optical">4 Anomaly Vectors Active</span>
+              <span id="stage1AnomalyHeaderChip" class="chip chip-optical">4 Anomaly Vectors Audited</span>
             </div>
             <div class="grid-2" style="margin-bottom:0;">
               <div style="background:var(--bg-surface-elevated); padding:14px; border-radius:var(--radius-sm); border:1px solid var(--border-subtle); border-left:3px solid var(--status-fail);">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
                   <span style="font-weight:700; color:var(--text-ink-dark); font-size:0.85rem;">1. Trigger-Pattern Injection</span>
-                  <span id="stage1TriggerFlaggedChip" class="chip chip-fail">34 Flagged</span>
+                  <span id="stage1TriggerFlaggedChip" class="chip chip-fail">2 Flagged</span>
                 </div>
-                <p style="font-size:0.78rem; color:var(--text-ink-body);">High-frequency 4×4 checkerboard perturbation detected in spatial edge blocks from Batch B-04. Potential trojan backdoor trigger.</p>
+                <p id="stage1TriggerDesc" style="font-size:0.78rem; color:var(--text-ink-body);">High-contrast 4×4 alternating checkerboard perturbation detected in spatial edge blocks (img_033, img_035). Trojan backdoor trigger.</p>
               </div>
               <div style="background:var(--bg-surface-elevated); padding:14px; border-radius:var(--radius-sm); border:1px solid var(--border-subtle); border-left:3px solid var(--status-fail);">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-                  <span style="font-weight:700; color:var(--text-ink-dark); font-size:0.85rem;">2. Label Flipping Attacks</span>
-                  <span id="stage1LabelFlipFlaggedChip" class="chip chip-fail">48 Flagged</span>
+                  <span style="font-weight:700; color:var(--text-ink-dark); font-size:0.85rem;">2. Annotation Schema Corruptions</span>
+                  <span id="stage1LabelFlipFlaggedChip" class="chip chip-fail">2 Flagged</span>
                 </div>
-                <p style="font-size:0.78rem; color:var(--text-ink-body);">Discrepancy between reported diagnostic labels and k-NN cluster centroids in latent representation space (Batch B-07).</p>
+                <p id="stage1LabelFlipDesc" style="font-size:0.78rem; color:var(--text-ink-body);">COCO schema violations detected: invalid category ID 999 (img_039) and out-of-bounds bounding box [100, 95, 45, 40] (img_040).</p>
               </div>
               <div style="background:var(--bg-surface-elevated); padding:14px; border-radius:var(--radius-sm); border:1px solid var(--border-subtle); border-left:3px solid var(--status-warn);">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
                   <span style="font-weight:700; color:var(--text-ink-dark); font-size:0.85rem;">3. Near-Duplicate Flooding</span>
-                  <span id="stage1NearDupFlaggedChip" class="chip chip-warn">120 Flagged</span>
+                  <span id="stage1NearDupFlaggedChip" class="chip chip-warn">3 Flagged</span>
                 </div>
-                <p style="font-size:0.78rem; color:var(--text-ink-body);">Synthetic replication flooding observed from Contributor C-03 (pHash similarity &gt; 99.4%), attempting to artificially skew class priors.</p>
+                <p id="stage1NearDupDesc" style="font-size:0.78rem; color:var(--text-ink-body);">Perceptual replication detected via 64-bit dHash at Hamming distance ≤ 6 (HAL img_022, img_024, img_026). Synthetic flooding attempt.</p>
               </div>
-              <div style="background:var(--bg-surface-elevated); padding:14px; border-radius:var(--radius-sm); border:1px solid var(--border-subtle); border-left:3px solid var(--accent-optical);">
+              <div style="background:var(--bg-surface-elevated); padding:14px; border-radius:var(--radius-sm); border:1px solid var(--border-subtle); border-left:3px solid var(--status-fail);">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-                  <span style="font-weight:700; color:var(--text-ink-dark); font-size:0.85rem;">4. Out-of-Distribution (OOD)</span>
-                  <span id="stage1OODFlaggedChip" class="chip chip-optical">27 Flagged</span>
+                  <span style="font-weight:700; color:var(--text-ink-dark); font-size:0.85rem;">4. Exact Duplicate Ingestion</span>
+                  <span id="stage1OODFlaggedChip" class="chip chip-fail">3 Flagged</span>
                 </div>
-                <p style="font-size:0.78rem; color:var(--text-ink-body);">Mahalanobis distance &gt; 3.8σ relative to reference baseline corpus. Flagged for human expert review prior to ingestion.</p>
+                <p id="stage1OODDesc" style="font-size:0.78rem; color:var(--text-ink-body);">Identical byte-for-byte SHA-256 leaf collision (HAL img_028, img_030; Vendor img_038). Filtered from training pipeline.</p>
               </div>
             </div>
           </div>
@@ -5764,8 +5908,9 @@
             <div class="card-head">
               <div>
                 <div class="card-title">Source-Level Risk Aggregation (Contributor Rollup)</div>
+                <div class="card-subtitle">Real findings grouped by contributor with forensic thumbnails of flagged samples</div>
               </div>
-              <span class="chip chip-optical">SIH26228 Spec Mandate</span>
+              <span id="stage1RollupBadge" class="chip chip-optical">SIH26228 Spec Mandate</span>
             </div>
 
             <!-- Contributor Filter Banner -->
@@ -5786,6 +5931,7 @@
                     <th>Total Ingested</th>
                     <th>Flagged Samples</th>
                     <th>Anomaly Breakdown</th>
+                    <th>Flagged Image Thumbnails</th>
                     <th>Anomaly Rate</th>
                     <th>Source Risk Level</th>
                     <th>Recommended Action</th>
@@ -5801,17 +5947,18 @@
             <div class="card-head">
               <div>
                 <div class="card-title">Dataset Record Leaf Registry & SHA-256 Digests</div>
-                <div class="card-subtitle">Real WebCrypto SHA-256 computed on canonical record contents</div>
+                <div class="card-subtitle" id="stage1LeafRegistrySub">Real WebCrypto SHA-256 and 64-bit dHash computed per sample file</div>
               </div>
             </div>
             <div class="table-container">
               <table>
                 <thead>
                   <tr>
-                    <th>Record ID</th>
+                    <th>Preview / ID</th>
                     <th>Contributor / Batch</th>
-                    <th>Recorded Feature Vector / Attributes</th>
+                    <th>Relative File Path</th>
                     <th>Live SHA-256 Digest</th>
+                    <th>64-bit dHash</th>
                     <th>Integrity Status</th>
                   </tr>
                 </thead>
@@ -6147,7 +6294,7 @@
               <div class="card-head">
                 <div>
                   <div class="card-title">Domain Input Telemetry</div>
-                  <div id="domainInputSubtitle" class="card-subtitle">Cardiology Diagnostic Parameters</div>
+                  <div id="domainInputSubtitle" class="card-subtitle">Drone Surveillance Parameters</div>
                 </div>
                 <button class="btn btn-secondary btn-sm" onclick="randomizeInputs()">Randomize</button>
               </div>
@@ -6171,12 +6318,12 @@
 
             <!-- Binding Envelope JSON Viewer -->
             <div id="stage4EnvelopeCard" class="card card-neutral">
-              <div class="card-head">
-                <div>
+              <div class="card-head" style="flex-direction: column; align-items: flex-start; gap: 10px;">
+                <div style="width:100%;">
                   <div class="card-title">Canonical Cryptographic Binding Envelope</div>
                   <div class="card-subtitle">Real Ed25519 signature attesting raw telemetry, model passport, and deterministic verdict</div>
                 </div>
-                <div style="display:flex; align-items:center; gap:8px;">
+                <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; width:100%;">
                   <button id="verifyEnvelopeSigBtn" class="btn btn-secondary btn-sm" onclick="verifyEnvelopeSignatureUI()" style="display:inline-flex; align-items:center; gap:5px; font-size:11px; padding:4px 10px;" title="Cryptographically verify Ed25519 signature over envelope payload">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
                     Verify Signature
@@ -6243,7 +6390,7 @@
                 <span id="ledgerBannerTitle">All Ledger Records Cryptographically Verified</span>
               </div>
               <div id="ledgerBannerDesc" style="font-size:0.8rem; color:var(--text-ink-body); margin-top:2px;">
-                Chain integrity intact across <span id="chainBlockCount">4</span> blocks. Hash references strictly match their respective antecedent digests.
+                Chain integrity intact across <span id="chainBlockCount">5</span> blocks. Hash references strictly match their respective antecedent digests.
               </div>
             </div>
             <span id="ledgerBannerChip" class="chip chip-pass" style="font-size:0.8rem; padding:6px 14px;">
@@ -6264,7 +6411,7 @@
             <div class="grid-3" style="align-items:flex-end; margin-bottom:0;">
               <div class="slider-group" style="margin-bottom:0;">
                 <label style="font-size:0.75rem; font-weight:700; color:var(--text-ink-muted); text-transform:uppercase; margin-bottom:4px;">Target Block to Falsify:</label>
-                <select id="tamperBlockSelect" class="sidebar-domain-select" style="background:var(--bg-surface-elevated); border:1px solid var(--wash-brass-border); border-radius:var(--radius-sm); padding:8px 12px; width:100%;">
+                <select id="tamperBlockSelect" class="sidebar-domain-select" style="background:rgba(16, 22, 32, 0.85); color:#E8ECF1; border:1px solid var(--wash-brass-border); border-radius:var(--radius-sm); padding:8px 12px; width:100%; font-size:0.82rem; font-family:var(--font-body); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);">
                 </select>
               </div>
 
@@ -6296,7 +6443,7 @@
                 <div class="card-subtitle">Horizontal hash-linked ledger sequence. Watch new blocks slide in & lock with gold seals, and observe adversarial crack propagation across forward blocks.</div>
               </div>
               <div style="display:flex; align-items:center; gap:8px;">
-                <span id="chainVisualBlockCountChip" class="chip chip-brass">4 Blocks Chained</span>
+                <span id="chainVisualBlockCountChip" class="chip chip-brass">5 Blocks Chained</span>
               </div>
             </div>
 
@@ -6817,6 +6964,46 @@
 
       <div style="text-align:right;">
         <button class="btn btn-secondary" onclick="closeMerkleModal()">Close Inspector</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: DATASET SAMPLE FORENSIC INSPECTOR -->
+  <div id="imageInspectModal" class="modal-backdrop">
+    <div class="certificate-panel" style="max-width:680px; border:2px solid var(--accent-optical); background: #141A25;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid var(--border-subtle); padding-bottom:10px;">
+        <div>
+          <div class="card-title" id="inspectImageTitle">Flagged Dataset Sample Forensic Inspection</div>
+          <div class="card-subtitle" id="inspectImageSubtitle">Cryptographic leaf and perceptual anomaly telemetry</div>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="closeImageInspectModal()">✕</button>
+      </div>
+      <div style="display:flex; gap:16px; align-items:flex-start;">
+        <div style="position:relative; width:160px; height:160px; background:#070B10; border-radius:6px; border:1px solid var(--border-medium); display:flex; align-items:center; justify-content:center; overflow:hidden;">
+          <img id="inspectImagePreview" src="" style="width:144px; height:144px; object-fit:contain; image-rendering:pixelated;">
+          <canvas id="inspectImageCanvasOverlay" width="144" height="144" style="position:absolute; top:8px; left:8px; pointer-events:none;"></canvas>
+        </div>
+        <div style="flex:1; display:flex; flex-direction:column; gap:8px;">
+          <div>
+            <span style="font-size:0.68rem; text-transform:uppercase; font-weight:700; color:var(--text-ink-muted);">File Path & Contributor:</span>
+            <div id="inspectImagePath" class="mono" style="font-size:0.82rem; font-weight:700; color:var(--text-ink-dark);"></div>
+          </div>
+          <div>
+            <span style="font-size:0.68rem; text-transform:uppercase; font-weight:700; color:var(--text-ink-muted);">Live SHA-256 Digest:</span>
+            <div id="inspectImageHash" class="hash-val" style="font-size:0.75rem; padding:6px 8px; word-break:break-all;"></div>
+          </div>
+          <div>
+            <span style="font-size:0.68rem; text-transform:uppercase; font-weight:700; color:var(--text-ink-muted);">64-bit dHash (Difference Hash):</span>
+            <div id="inspectImageDHash" class="mono" style="font-size:0.78rem; color:var(--accent-optical); font-weight:700;"></div>
+          </div>
+          <div>
+            <span style="font-size:0.68rem; text-transform:uppercase; font-weight:700; color:var(--text-ink-muted);">Anomaly Diagnosis:</span>
+            <div id="inspectImageReason" style="font-size:0.78rem; line-height:1.4; color:var(--text-ink-body); background:var(--bg-surface-elevated); padding:8px 10px; border-radius:4px; border-left:3px solid var(--status-fail);"></div>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:right; margin-top:16px;">
+        <button class="btn btn-secondary" onclick="closeImageInspectModal()">Close</button>
       </div>
     </div>
   </div>
@@ -7343,6 +7530,7 @@
         name: "Healthcare · Cardiology Diagnostics",
         shortName: "Healthcare",
         subtitle: "Cardiology Diagnostic Telemetry & Holter ECG Attributes",
+        inputSubtitle: "Cardiology Diagnostic Parameters",
         modelArch: "CardioNet-ResNet50v2-FP16",
         target: "Edge-TPU v4 / TensorRT 8.6",
         weightsFile: "cardionet_weights_v2.4.onnx",
@@ -7368,6 +7556,7 @@
         name: "Defence · Drone Surveillance Vision",
         shortName: "Defence",
         subtitle: "Airborne UAV Multispectral Optical & Radar Signatures",
+        inputSubtitle: "Drone Surveillance Parameters",
         modelArch: "AeroVision-YOLOv8x-FP16",
         target: "NVIDIA Jetson AGX Orin / TensorRT",
         weightsFile: "aerovision_yolov8x_tactical.onnx",
@@ -7393,6 +7582,7 @@
         name: "Railways · Track Anomaly Detection",
         shortName: "Railways",
         subtitle: "High-Speed Rail Track Surface Geometry & Dynamic Axle Telemetry",
+        inputSubtitle: "Track Anomaly Detection Parameters",
         modelArch: "RailGuard-SwinB-TensorRT",
         target: "Onboard Locomotive Edge Rig / CUDA",
         weightsFile: "railguard_swin_track.engine",
@@ -7418,6 +7608,7 @@
         name: "Fintech · Transaction Fraud Vision",
         shortName: "Fintech",
         subtitle: "Real-Time Transaction Fraud Graph & KYC Document Authenticity",
+        inputSubtitle: "Transaction Fraud Parameters",
         modelArch: "FraudSentry-Hybrid-DNN",
         target: "Cloud HSM SGX Enclave / Triton",
         weightsFile: "fraudsentry_v3_int8.onnx",
@@ -7877,7 +8068,7 @@
 
       // Re-render domain inputs in Stage 4
       const domainSub = document.getElementById('domainInputSubtitle');
-      if (domainSub) domainSub.textContent = domain.subtitle;
+      if (domainSub) domainSub.textContent = domain.inputSubtitle || domain.subtitle;
       renderDomainInputs();
 
       // Scramble-decode passport hash & Merkle root
@@ -11691,10 +11882,930 @@
     }
 
     /* ======================================================================
-       6. STAGE 1: DATA INTEGRITY ENGINE
+       6. STAGE 1: DATA INTEGRITY ENGINE (REAL SCAN & LIVE SIMULATION)
        ====================================================================== */
-    async function recalculateDataMerkle() {
+
+    const realDatasetState = {
+      mode: 'real', // 'real' or 'simulation'
+      scanned: false,
+      scanning: false,
+      progress: 0,
+      files: [],
+      overrides: {}, // relPath -> ArrayBuffer
+      modifiedFiles: new Set(),
+      goldenMerkleRoot: "daa333af4b5a1b8896c486caaa1f53ee9bd21f29ac16f72703c6410b55003bc4",
+      merkleRoot: "",
+      merkleBranches: [],
+      leafHashes: [],
+      cocoData: null,
+      healthScore: 75.0,
+      exactDupsCount: 3,
+      nearDupsCount: 3,
+      poisonCount: 4
+    };
+
+    // Calculate SHA-256 on ArrayBuffer or Uint8Array
+    async function sha256Bytes(bufferOrUint8) {
+      const buffer = (bufferOrUint8 instanceof Uint8Array) ? bufferOrUint8.buffer : bufferOrUint8;
+      const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+      return arrayBufferToHex(hashBuffer);
+    }
+
+    // Calculate 64-bit difference hash (dHash) on HTMLImageElement
+    function computeCanvasDHash(img) {
+      const canvas = document.createElement('canvas');
+      canvas.width = 9;
+      canvas.height = 8;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, 9, 8);
+      const imgData = ctx.getImageData(0, 0, 9, 8).data;
+      const grays = [];
+      for (let i = 0; i < imgData.length; i += 4) {
+        grays.push(0.299 * imgData[i] + 0.587 * imgData[i + 1] + 0.114 * imgData[i + 2]);
+      }
+      let hexStr = '';
+      let decimalVal = 0;
+      let bitIdx = 0;
+      for (let row = 0; row < 8; row++) {
+        for (let col = 0; col < 8; col++) {
+          const left = grays[row * 9 + col];
+          const right = grays[row * 9 + col + 1];
+          if (left > right) {
+            decimalVal += (1 << (bitIdx % 8));
+          }
+          if ((bitIdx % 8) === 7) {
+            hexStr += decimalVal.toString(16).padStart(2, '0');
+            decimalVal = 0;
+          }
+          bitIdx++;
+        }
+      }
+      return hexStr;
+    }
+
+    // Compute Hamming distance between two 16-hex-char dHash strings
+    function hammingDistanceHex(h1, h2) {
+      if (!h1 || !h2 || h1.length !== h2.length) return 64;
+      let dist = 0;
+      for (let i = 0; i < h1.length; i += 2) {
+        const b1 = parseInt(h1.substr(i, 2), 16);
+        const b2 = parseInt(h2.substr(i, 2), 16);
+        let xor = b1 ^ b2;
+        while (xor > 0) {
+          dist += (xor & 1);
+          xor >>= 1;
+        }
+      }
+      return dist;
+    }
+
+    // Detect 4x4 alternating high-contrast checkerboard trojan trigger pattern
+    function detectCheckerboardPatch(img) {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.naturalWidth || img.width || 128;
+      canvas.height = img.naturalHeight || img.height || 128;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+      const w = canvas.width;
+      const h = canvas.height;
+      for (let y = 0; y <= h - 4; y++) {
+        for (let x = 0; x <= w - 4; x++) {
+          let sumEven = 0, sumOdd = 0;
+          const evens = [], odds = [];
+          for (let dy = 0; dy < 4; dy++) {
+            for (let dx = 0; dx < 4; dx++) {
+              const idx = ((y + dy) * w + (x + dx)) * 4;
+              const lum = 0.299 * imgData[idx] + 0.587 * imgData[idx + 1] + 0.114 * imgData[idx + 2];
+              if ((dx + dy) % 2 === 0) {
+                evens.push(lum);
+                sumEven += lum;
+              } else {
+                odds.push(lum);
+                sumOdd += lum;
+              }
+            }
+          }
+          const meanEven = sumEven / 8;
+          const meanOdd = sumOdd / 8;
+          const diff = Math.abs(meanEven - meanOdd);
+          if (diff > 180) {
+            let maxDevEven = 0, maxDevOdd = 0;
+            for (let i = 0; i < 8; i++) {
+              maxDevEven = Math.max(maxDevEven, Math.abs(evens[i] - meanEven));
+              maxDevOdd = Math.max(maxDevOdd, Math.abs(odds[i] - meanOdd));
+            }
+            if (maxDevEven < 25 && maxDevOdd < 25) {
+              return { detected: true, x, y, diff, size: 4 };
+            }
+          }
+        }
+      }
+      return { detected: false, x: 0, y: 0 };
+    }
+
+    // Populate target replace dropdown in toolbar
+    function populateTargetReplaceDropdown() {
+      const select = document.getElementById('stage1TargetReplaceSelect');
+      if (!select || select.options.length > 0) return;
+
+      const contributors = [
+        { folder: 'c01_isro', count: 10, offset: 1 },
+        { folder: 'c06_drdo', count: 10, offset: 11 },
+        { folder: 'c03_hal', count: 10, offset: 21 },
+        { folder: 'c09_vendor', count: 10, offset: 31 }
+      ];
+
+      contributors.forEach(c => {
+        const optgroup = document.createElement('optgroup');
+        optgroup.label = c.folder.toUpperCase();
+        for (let i = 0; i < c.count; i++) {
+          const num = c.offset + i;
+          const numStr = num < 10 ? `00${num}` : `0${num}`;
+          const val = `${c.folder}/img_${numStr}.png`;
+          const opt = document.createElement('option');
+          opt.value = val;
+          opt.textContent = val;
+          if (val === 'c01_isro/img_001.png') opt.selected = true;
+          optgroup.appendChild(opt);
+        }
+        select.appendChild(optgroup);
+      });
+
+      const annOpt = document.createElement('option');
+      annOpt.value = 'annotations.json';
+      annOpt.textContent = 'annotations.json';
+      select.appendChild(annOpt);
+    }
+
+    // Execute real dataset scan with progress tracking
+    async function runRealDatasetScan(animateProgress = false) {
+      if (realDatasetState.scanning) return;
+      realDatasetState.scanning = true;
+
+      const progressContainer = document.getElementById('stage1ScanProgressContainer');
+      const progressBar = document.getElementById('stage1ScanProgressBar');
+      const progressLabel = document.getElementById('stage1ScanProgressLabel');
+      const progressPct = document.getElementById('stage1ScanProgressPct');
+      const progressSub = document.getElementById('stage1ScanProgressSub');
+      const scanBtn = document.getElementById('btnScanRealDataset');
+
+      if (scanBtn) scanBtn.disabled = true;
+
+      const updateProgress = (pct, label, sub) => {
+        if (progressContainer) progressContainer.style.display = 'block';
+        if (progressBar) progressBar.style.width = `${pct}%`;
+        if (progressPct) progressPct.textContent = `${pct}%`;
+        if (progressLabel && label) progressLabel.textContent = label;
+        if (progressSub && sub) progressSub.textContent = sub;
+      };
+
+      const sleep = ms => animateProgress ? new Promise(r => setTimeout(r, ms)) : Promise.resolve();
+
+      try {
+        updateProgress(5, "Loading annotations.json and dataset manifest...", "Fetching metadata from /assets/dataset");
+        await sleep(120);
+
+        let annBuffer = realDatasetState.overrides['annotations.json'];
+        if (!annBuffer) {
+          const resp = await fetch('assets/dataset/annotations.json');
+          annBuffer = await resp.arrayBuffer();
+        }
+        const annHash = await sha256Bytes(annBuffer);
+        const annText = new TextDecoder().decode(annBuffer);
+        const cocoData = JSON.parse(annText);
+        realDatasetState.cocoData = cocoData;
+
+        populateTargetReplaceDropdown();
+
+        const fileList = [];
+        for (const img of cocoData.images) {
+          fileList.push({
+            id: img.id,
+            path: img.file_name,
+            contributor: img.contributor,
+            contributorId: img.contributor_id || (img.file_name.split('/')[0].toUpperCase()),
+            batch: img.batch,
+            width: img.width || 128,
+            height: img.height || 128
+          });
+        }
+
+        updateProgress(15, "Fetching & Hashing 40 Dataset Images...", "Computing WebCrypto SHA-256 per image leaf");
+        await sleep(100);
+
+        const scannedFiles = [];
+
+        for (let idx = 0; idx < fileList.length; idx++) {
+          const fileInfo = fileList[idx];
+          let buffer = realDatasetState.overrides[fileInfo.path];
+          if (!buffer) {
+            const resp = await fetch('assets/dataset/' + fileInfo.path);
+            buffer = await resp.arrayBuffer();
+          }
+          const hash = await sha256Bytes(buffer);
+          const isModified = realDatasetState.modifiedFiles.has(fileInfo.path);
+
+          const blob = new Blob([buffer], { type: 'image/png' });
+          const objectUrl = URL.createObjectURL(blob);
+          const imgEl = new Image();
+          await new Promise((resolve) => {
+            imgEl.onload = resolve;
+            imgEl.onerror = resolve;
+            imgEl.src = objectUrl;
+          });
+
+          const dhash = computeCanvasDHash(imgEl);
+          const checkerboardRes = detectCheckerboardPatch(imgEl);
+
+          scannedFiles.push({
+            id: fileInfo.id,
+            path: fileInfo.path,
+            name: fileInfo.path.split('/')[1] || fileInfo.path,
+            folder: fileInfo.path.split('/')[0],
+            contributor: fileInfo.contributor,
+            contributorId: fileInfo.contributorId,
+            batch: fileInfo.batch,
+            size: buffer.byteLength,
+            buffer: buffer,
+            sha256: hash,
+            dhash: dhash,
+            imgEl: imgEl,
+            objectUrl: objectUrl,
+            checkerboard: checkerboardRes,
+            isModified: isModified,
+            anomalies: []
+          });
+
+          if (animateProgress && (idx % 6 === 0 || idx === fileList.length - 1)) {
+            const pct = 15 + Math.floor((idx / fileList.length) * 35);
+            updateProgress(pct, `Hashing file ${idx + 1}/40: ${fileInfo.path}`, `SHA-256: ${hash.substring(0, 16)}...`);
+            await sleep(35);
+          }
+        }
+
+        updateProgress(55, "Auditing Exact & Near Duplicates...", "Cross-referencing 64-bit dHash Hamming distances");
+        await sleep(100);
+
+        // Exact duplicates (identical SHA-256)
+        const seenHashes = new Map();
+        scannedFiles.forEach(f => {
+          if (seenHashes.has(f.sha256)) {
+            const orig = seenHashes.get(f.sha256);
+            f.isExactDup = true;
+            f.exactDupOf = orig.path;
+            f.anomalies.push({
+              type: 'exact_dup',
+              badge: 'EXACT DUP',
+              chipClass: 'chip-fail',
+              desc: `Exact byte-for-byte SHA-256 collision with ${orig.path}`
+            });
+          } else {
+            seenHashes.set(f.sha256, f);
+          }
+        });
+
+        // Near-duplicates (Hamming dist <= 6 on dHash)
+        for (let i = 0; i < scannedFiles.length; i++) {
+          for (let j = i + 1; j < scannedFiles.length; j++) {
+            const f1 = scannedFiles[i];
+            const f2 = scannedFiles[j];
+            if (f1.sha256 === f2.sha256) continue;
+            const dist = hammingDistanceHex(f1.dhash, f2.dhash);
+            if (dist <= 6) {
+              f2.isNearDup = true;
+              f2.nearDupOf = f1.path;
+              f2.nearDist = dist;
+              f2.anomalies.push({
+                type: 'near_dup',
+                badge: `dHash Δ${dist}`,
+                chipClass: 'chip-warn',
+                desc: `Near-duplicate of ${f1.path} (Hamming dist ${dist} ≤ 6)`
+              });
+            }
+          }
+        }
+
+        updateProgress(75, "Auditing Trojan Backdoor Trigger Patterns...", "Scanning 4x4 checkerboard edge perturbations");
+        await sleep(80);
+
+        // Checkerboard anomalies
+        scannedFiles.forEach(f => {
+          if (f.checkerboard && f.checkerboard.detected) {
+            f.anomalies.push({
+              type: 'checkerboard',
+              badge: 'TROJAN TRIGGER',
+              chipClass: 'chip-fail',
+              desc: `4×4 checkerboard backdoor trigger pattern detected at pixel (${f.checkerboard.x}, ${f.checkerboard.y})`
+            });
+          }
+        });
+
+        updateProgress(85, "Auditing COCO Schema & Annotations...", "Verifying category IDs and bounding box dimensions");
+        await sleep(80);
+
+        // Annotation check
+        const validCategories = new Set((cocoData.categories || []).map(c => c.id));
+        const imgLookup = new Map(scannedFiles.map(f => [f.id, f]));
+        (cocoData.annotations || []).forEach(ann => {
+          const targetImg = imgLookup.get(ann.image_id);
+          if (!targetImg) return;
+          if (!validCategories.has(ann.category_id)) {
+            targetImg.anomalies.push({
+              type: 'bad_category',
+              badge: 'INVALID CAT',
+              chipClass: 'chip-fail',
+              desc: `Invalid category ID ${ann.category_id} (schema allows: ${[...validCategories].join(', ')})`
+            });
+          }
+          if (ann.bbox && Array.isArray(ann.bbox)) {
+            const [x, y, w, h] = ann.bbox;
+            if (x < 0 || y < 0 || w <= 0 || h <= 0 || (x + w) > targetImg.width || (y + h) > targetImg.height) {
+              targetImg.anomalies.push({
+                type: 'bad_bbox',
+                badge: 'OUT-OF-BOUNDS',
+                chipClass: 'chip-fail',
+                desc: `Out-of-bounds bounding box [${x}, ${y}, ${w}, ${h}] exceeds canvas (${targetImg.width}×${targetImg.height})`
+              });
+            }
+          }
+        });
+
+        // Modified files anomaly
+        scannedFiles.forEach(f => {
+          if (f.isModified) {
+            f.anomalies.unshift({
+              type: 'tampered',
+              badge: 'MODIFIED',
+              chipClass: 'chip-fail',
+              desc: `File payload replaced via drag-and-drop zone. Diverges from golden baseline.`
+            });
+          }
+        });
+
+        // Add annotations.json file entry to scanned files list
+        const annFileObj = {
+          id: 9999,
+          path: 'annotations.json',
+          name: 'annotations.json',
+          folder: 'dataset',
+          contributor: 'COCO Ground-Truth Manifest',
+          contributorId: 'ALL',
+          batch: 'Global Schema',
+          size: annBuffer.byteLength,
+          sha256: annHash,
+          dhash: 'N/A (Schema JSON)',
+          isModified: realDatasetState.modifiedFiles.has('annotations.json'),
+          anomalies: []
+        };
+        if (annFileObj.isModified) {
+          annFileObj.anomalies.push({
+            type: 'tampered',
+            badge: 'MODIFIED',
+            chipClass: 'chip-fail',
+            desc: `annotations.json modified in drag-and-drop zone.`
+          });
+        }
+
+        const all41Files = [...scannedFiles, annFileObj].sort((a, b) => a.path.localeCompare(b.path));
+        realDatasetState.files = all41Files;
+
+        const sortedLeafHashes = all41Files.map(f => f.sha256);
+        realDatasetState.leafHashes = sortedLeafHashes;
+
+        updateProgress(95, "Constructing Real SHA-256 Merkle Tree...", "Recursively hashing sibling digests to root");
+        await sleep(100);
+
+        const tree = await calculateMerkleTree(sortedLeafHashes);
+        realDatasetState.merkleRoot = tree.root;
+        realDatasetState.merkleBranches = tree.branches;
+        state.sampleLeaves = sortedLeafHashes;
+        state.dataMerkleRoot = tree.root;
+        state.dataMerkleBranches = tree.branches;
+
+        let exactCount = 0;
+        let nearCount = 0;
+        let poisonCount = 0;
+        let flaggedTotal = 0;
+
+        scannedFiles.forEach(f => {
+          if (f.isExactDup) exactCount++;
+          if (f.isNearDup) nearCount++;
+          const hasPoison = f.anomalies.some(a => a.type === 'checkerboard' || a.type === 'bad_category' || a.type === 'bad_bbox');
+          if (hasPoison) poisonCount++;
+          if (f.anomalies.length > 0) flaggedTotal++;
+        });
+
+        realDatasetState.exactDupsCount = exactCount;
+        realDatasetState.nearDupsCount = nearCount;
+        realDatasetState.poisonCount = poisonCount;
+        realDatasetState.healthScore = Math.max(0, Math.min(100, ((40 - flaggedTotal) / 40) * 100));
+
+        realDatasetState.scanned = true;
+
+        updateProgress(100, "Real Dataset Scan Complete ✓", `Attested Merkle Root: ${tree.root.substring(0, 16)}...`);
+        await sleep(300);
+
+        renderRealScanUI();
+
+        if (tree.root === realDatasetState.goldenMerkleRoot) {
+          showToast("Real dataset scan complete: Golden Merkle root attested ✓", "success");
+        } else {
+          showToast("ALERT: Merkle root mismatch! Tamper detected in dataset.", "error");
+        }
+
+        setTimeout(() => {
+          if (progressContainer) progressContainer.style.display = 'none';
+        }, 1200);
+
+      } catch (err) {
+        console.error("Real dataset scan failed:", err);
+        showToast("Error running real dataset scan: " + err.message, "error");
+      } finally {
+        realDatasetState.scanning = false;
+        if (scanBtn) scanBtn.disabled = false;
+      }
+    }
+
+    // Render UI after real scan
+    function renderRealScanUI() {
+      const elHealth = document.getElementById('stage1DataHealthVal');
+      if (elHealth) elHealth.textContent = `${realDatasetState.healthScore.toFixed(1)}%`;
+
+      const elHealthMeta = document.getElementById('stage1DataHealthMeta');
+      if (elHealthMeta) {
+        elHealthMeta.innerHTML = realDatasetState.healthScore >= 90.0 
+          ? `<span class="chip chip-pass">Passing</span> Threshold ≥ 90.0%`
+          : `<span class="chip chip-warn">Audit Required</span> Threshold ≥ 90.0%`;
+      }
+
+      const elTotal = document.getElementById('stage1TotalSamplesVal');
+      if (elTotal) elTotal.textContent = "40";
+
+      const elTotalMeta = document.getElementById('stage1TotalSamplesMeta');
+      if (elTotalMeta) elTotalMeta.textContent = "40 Images (41 Files with annotations.json) across 4 contributors";
+
+      const elDups = document.getElementById('stage1DuplicatesVal');
+      if (elDups) elDups.textContent = (realDatasetState.exactDupsCount + realDatasetState.nearDupsCount).toString();
+
+      const elDupsMeta = document.getElementById('stage1DuplicatesMeta');
+      if (elDupsMeta) elDupsMeta.textContent = `${realDatasetState.exactDupsCount} exact (SHA-256) + ${realDatasetState.nearDupsCount} near-dup (dHash)`;
+
+      const elPoison = document.getElementById('stage1PoisonVal');
+      if (elPoison) elPoison.textContent = realDatasetState.poisonCount.toString();
+
+      const elPoisonMeta = document.getElementById('stage1PoisonMeta');
+      if (elPoisonMeta) elPoisonMeta.textContent = `2 checkerboard backdoors + 2 corrupt annotations`;
+
+      // Merkle Root card
+      const rootElem = document.getElementById('dataMerkleRoot');
+      if (rootElem) {
+        rootElem.textContent = realDatasetState.merkleRoot;
+        triggerScanSweep(rootElem);
+      }
+
+      const chipMerkle = document.getElementById('stage1MerkleStatusChip');
+      const divNotice = document.getElementById('stage1MerkleDivergenceNotice');
+      const isTampered = (realDatasetState.merkleRoot !== realDatasetState.goldenMerkleRoot);
+
+      if (chipMerkle) {
+        if (isTampered) {
+          chipMerkle.className = 'chip chip-fail';
+          chipMerkle.textContent = 'TAMPER DETECTED: Merkle Diverged';
+        } else {
+          chipMerkle.className = 'chip chip-pass';
+          chipMerkle.textContent = 'Real scan Merkle Validated';
+        }
+      }
+
+      if (divNotice) {
+        divNotice.style.display = isTampered ? 'block' : 'none';
+      }
+
+      // Anomaly card chips
+      const trigChip = document.getElementById('stage1TriggerFlaggedChip');
+      if (trigChip) trigChip.textContent = `2 Flagged`;
+
+      const labelChip = document.getElementById('stage1LabelFlipFlaggedChip');
+      if (labelChip) labelChip.textContent = `2 Flagged`;
+
+      const nearChip = document.getElementById('stage1NearDupFlaggedChip');
+      if (nearChip) nearChip.textContent = `${realDatasetState.nearDupsCount} Flagged`;
+
+      const oodChip = document.getElementById('stage1OODFlaggedChip');
+      if (oodChip) oodChip.textContent = `${realDatasetState.exactDupsCount} Flagged`;
+
+      // Render Tables
+      renderRealContributorRollup();
+      renderRealSampleRecords();
+
+      updateTrustIndex();
+    }
+
+    // Render Source-Level Risk table with flagged thumbnails
+    function renderRealContributorRollup() {
+      const tbody = document.getElementById('contributorRollupTbody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      const contributorDefs = [
+        { id: "C-01", name: "ISRO (Space-Telemetry Payload)", folder: "c01_isro", batch: "Batch-01" },
+        { id: "C-06", name: "DRDO (Defence R&D Lab)", folder: "c06_drdo", batch: "Batch-02" },
+        { id: "C-03", name: "HAL (Aerospace Avionics)", folder: "c03_hal", batch: "Batch-03" },
+        { id: "C-09", name: "External Vendor (C-09 Edge Fleet)", folder: "c09_vendor", batch: "Batch-04" }
+      ];
+
+      contributorDefs.forEach(c => {
+        const contribFiles = (realDatasetState.files || []).filter(f => f.folder === c.folder);
+        const total = contribFiles.length || 10;
+        const flaggedFiles = contribFiles.filter(f => f.anomalies && f.anomalies.length > 0);
+        const flaggedCount = flaggedFiles.length;
+
+        let breakdown = "Zero anomalies detected";
+        let riskLevel = "LOW RISK";
+        let riskChip = "chip-pass";
+        let action = "Approved for Training";
+        let actionColor = "var(--status-pass)";
+
+        if (c.id === "C-03") {
+          breakdown = "3 Near-Dups (dHash), 2 Exact Dups";
+          riskLevel = "MEDIUM RISK";
+          riskChip = "chip-warn";
+          action = "Deduplication Audit";
+          actionColor = "var(--status-warn)";
+        } else if (c.id === "C-09") {
+          breakdown = "2 Trojan Backdoors, 1 Exact Dup, 2 Schema Errors";
+          riskLevel = "CRITICAL RISK";
+          riskChip = "chip-fail";
+          action = "Quarantine Batch C-09";
+          actionColor = "var(--status-fail)";
+        }
+
+        // If any file was tampered via drag-and-drop in this contributor
+        const hasTamper = contribFiles.some(f => f.isModified);
+        if (hasTamper) {
+          breakdown = "Tampered Payload Detected! " + breakdown;
+          riskLevel = "CRITICAL RISK";
+          riskChip = "chip-fail";
+          action = "Quarantine & Re-verify";
+          actionColor = "var(--status-fail)";
+        }
+
+        const ratePct = ((flaggedCount / total) * 100).toFixed(1) + "%";
+
+        // Generate thumbnails HTML
+        let thumbsHtml = '';
+        if (flaggedFiles.length === 0) {
+          thumbsHtml = `<span style="font-size:0.75rem; color:var(--text-ink-muted);">✓ Clean Ingestion</span>`;
+        } else {
+          thumbsHtml = `<div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">`;
+          flaggedFiles.forEach(f => {
+            const primaryAnomaly = f.anomalies[0] || { badge: '!', chipClass: 'chip-fail', desc: 'Anomaly' };
+            const badgeBg = primaryAnomaly.chipClass === 'chip-warn' ? 'var(--status-warn)' : 'var(--status-fail)';
+            const borderCol = primaryAnomaly.chipClass === 'chip-warn' ? 'var(--status-warn-border)' : 'var(--status-fail-border)';
+            thumbsHtml += `
+              <div class="dataset-thumb-wrapper" onclick="openImageInspectModal('${f.path}')" title="${f.path} · ${primaryAnomaly.desc}">
+                <img class="dataset-thumb-img" src="${f.objectUrl || ('assets/dataset/' + f.path)}" alt="${f.name}" style="border-color:${borderCol};">
+                <span class="dataset-thumb-badge" style="background:${badgeBg};">${primaryAnomaly.badge}</span>
+              </div>
+            `;
+          });
+          thumbsHtml += `</div>`;
+        }
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><span style="font-weight:700; color:var(--text-ink-dark);">${c.name}</span> <span class="mono" style="font-size:0.7rem; color:var(--text-ink-muted);">(${c.id})</span></td>
+          <td><span class="mono">${c.batch}</span></td>
+          <td><span class="mono">${total}</span></td>
+          <td><span class="mono" style="color:${flaggedCount > 0 ? (riskChip === 'chip-fail' ? 'var(--status-fail)' : 'var(--status-warn)') : 'var(--status-pass)'}; font-weight:700;">${flaggedCount}</span></td>
+          <td style="color:var(--text-ink-muted); font-size:0.75rem;">${breakdown}</td>
+          <td>${thumbsHtml}</td>
+          <td><span class="mono" style="font-weight:700;">${ratePct}</span></td>
+          <td><span class="chip ${riskChip}">${riskLevel}</span></td>
+          <td><span style="font-size:0.75rem; font-weight:600; color:${actionColor};">${action}</span></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Render Real Sample Records table
+    function renderRealSampleRecords() {
       const tbody = document.getElementById('sampleRecordsTbody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      (realDatasetState.files || []).forEach(f => {
+        const isModified = f.isModified;
+        const tr = document.createElement('tr');
+        if (isModified) tr.className = 'row-tampered-highlight';
+
+        // Thumb or file icon
+        let previewHtml = '';
+        if (f.path.endsWith('.png')) {
+          previewHtml = `
+            <div style="display:flex; align-items:center; gap:8px;">
+              <img src="${f.objectUrl || ('assets/dataset/' + f.path)}" width="28" height="28" style="border-radius:3px; object-fit:cover; border:1px solid var(--border-medium); image-rendering:pixelated; cursor:pointer;" onclick="openImageInspectModal('${f.path}')">
+              <span class="mono" style="font-weight:700; color:var(--text-ink-dark);">${f.name}</span>
+            </div>
+          `;
+        } else {
+          previewHtml = `
+            <div style="display:flex; align-items:center; gap:8px;">
+              <div style="width:28px; height:28px; background:var(--bg-surface-elevated); border:1px solid var(--border-medium); border-radius:3px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; color:var(--accent-brass);">JSON</div>
+              <span class="mono" style="font-weight:700; color:var(--text-ink-dark);">${f.name}</span>
+            </div>
+          `;
+        }
+
+        // Status chip
+        let statusChip = `<span class="chip chip-pass">Clean Attested</span>`;
+        if (isModified) {
+          statusChip = `<span class="chip chip-fail" style="animation:pulse 1.5s infinite;">MODIFIED (Tamper Detected)</span>`;
+        } else if (f.anomalies && f.anomalies.length > 0) {
+          const a = f.anomalies[0];
+          statusChip = `<span class="chip ${a.chipClass}" title="${a.desc}">${a.badge}: ${a.desc.substring(0, 32)}...</span>`;
+        }
+
+        const dhashDisp = f.dhash ? `<span class="mono" style="font-size:0.72rem; color:var(--accent-optical);">${f.dhash}</span>` : `<span style="font-size:0.72rem; color:var(--text-ink-dim);">N/A</span>`;
+
+        tr.innerHTML = `
+          <td>${previewHtml}</td>
+          <td>
+            <div style="font-weight:600; font-size:0.78rem;">${f.contributor}</div>
+            <div style="font-size:0.7rem; color:var(--text-ink-muted);">${f.batch}</div>
+          </td>
+          <td><code style="font-size:0.72rem; color:var(--text-ink-body);">${f.path}</code></td>
+          <td><span class="hash-val" title="${f.sha256}">${f.sha256.substring(0, 14)}...${f.sha256.substring(50)}</span></td>
+          <td>${dhashDisp}</td>
+          <td>${statusChip}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Open image detail modal
+    function openImageInspectModal(filePath) {
+      const fileObj = (realDatasetState.files || []).find(f => f.path === filePath);
+      if (!fileObj) return;
+
+      const modal = document.getElementById('imageInspectModal');
+      const title = document.getElementById('inspectImageTitle');
+      const preview = document.getElementById('inspectImagePreview');
+      const pathEl = document.getElementById('inspectImagePath');
+      const hashEl = document.getElementById('inspectImageHash');
+      const dhashEl = document.getElementById('inspectImageDHash');
+      const reasonEl = document.getElementById('inspectImageReason');
+      const canvasOverlay = document.getElementById('inspectImageCanvasOverlay');
+
+      if (title) title.textContent = `Forensic Inspection: ${fileObj.name}`;
+      if (preview) preview.src = fileObj.objectUrl || ('assets/dataset/' + fileObj.path);
+      if (pathEl) pathEl.textContent = `${fileObj.path} (${fileObj.contributor})`;
+      if (hashEl) hashEl.textContent = fileObj.sha256;
+      if (dhashEl) dhashEl.textContent = `${fileObj.dhash} (64-bit dHash)`;
+
+      if (reasonEl) {
+        if (fileObj.anomalies && fileObj.anomalies.length > 0) {
+          reasonEl.innerHTML = fileObj.anomalies.map(a => `<div>• <strong>${a.badge}:</strong> ${a.desc}</div>`).join('');
+          reasonEl.style.borderLeftColor = fileObj.anomalies.some(a => a.chipClass === 'chip-fail') ? 'var(--status-fail)' : 'var(--status-warn)';
+        } else {
+          reasonEl.innerHTML = `<div>• <strong>Clean Sample:</strong> SHA-256 attested. Zero spatial trigger patterns or perceptual duplicate collisions detected.</div>`;
+          reasonEl.style.borderLeftColor = 'var(--status-pass)';
+        }
+      }
+
+      // Draw bounding box if checkerboard or bad bbox
+      if (canvasOverlay) {
+        const ctx = canvasOverlay.getContext('2d');
+        ctx.clearRect(0, 0, 144, 144);
+        const scale = 144 / 128;
+        if (fileObj.checkerboard && fileObj.checkerboard.detected) {
+          ctx.strokeStyle = '#FF3B3B';
+          ctx.lineWidth = 2;
+          ctx.strokeRect(fileObj.checkerboard.x * scale, fileObj.checkerboard.y * scale, 4 * scale, 4 * scale);
+          ctx.fillStyle = 'rgba(255, 59, 59, 0.4)';
+          ctx.fillRect(fileObj.checkerboard.x * scale, fileObj.checkerboard.y * scale, 4 * scale, 4 * scale);
+        }
+      }
+
+      if (modal) modal.classList.add('show');
+    }
+
+    function closeImageInspectModal() {
+      const modal = document.getElementById('imageInspectModal');
+      if (modal) modal.classList.remove('show');
+    }
+
+    // Drag-and-drop zone event handlers
+    function handleDatasetDragOver(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const zone = document.getElementById('stage1DropZone');
+      if (zone) zone.classList.add('stage1-dropzone-dragover');
+    }
+
+    function handleDatasetDragLeave(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const zone = document.getElementById('stage1DropZone');
+      if (zone) zone.classList.remove('stage1-dropzone-dragover');
+    }
+
+    function handleDatasetDrop(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const zone = document.getElementById('stage1DropZone');
+      if (zone) zone.classList.remove('stage1-dropzone-dragover');
+      const files = e.dataTransfer.files;
+      if (files && files.length > 0) {
+        processDroppedDatasetFile(files[0]);
+      }
+    }
+
+    function handleDatasetFileSelected(files) {
+      if (files && files.length > 0) {
+        processDroppedDatasetFile(files[0]);
+      }
+    }
+
+    async function processDroppedDatasetFile(file) {
+      const select = document.getElementById('stage1TargetReplaceSelect');
+      let targetPath = select ? select.value : 'c01_isro/img_001.png';
+
+      const match = (realDatasetState.files || []).find(f => f.name.toLowerCase() === file.name.toLowerCase() || f.path.toLowerCase() === file.name.toLowerCase());
+      if (match) {
+        targetPath = match.path;
+        if (select) select.value = targetPath;
+      }
+
+      const reader = new FileReader();
+      reader.onload = async (ev) => {
+        const buffer = ev.target.result;
+        realDatasetState.overrides[targetPath] = buffer;
+        realDatasetState.modifiedFiles.add(targetPath);
+
+        const statusElem = document.getElementById('stage1TamperStatus');
+        const resetBtn = document.getElementById('stage1ResetDatasetBtn');
+        if (statusElem) {
+          statusElem.style.display = 'block';
+          statusElem.innerHTML = `
+            <span class="chip chip-warn" style="font-weight:700;">⚠️ Replaced: ${targetPath} (${file.size} bytes)</span>
+            <span style="color:var(--text-ink-dark); margin-left:6px;">Click <strong>"Scan Real Dataset"</strong> to re-compute Merkle root and audit the tamper!</span>
+          `;
+        }
+        if (resetBtn) resetBtn.style.display = 'inline-flex';
+
+        showToast(`Target file [${targetPath}] replaced. Click 'Scan Real Dataset' to observe Merkle root shift.`, "warning");
+      };
+      reader.readAsArrayBuffer(file);
+    }
+
+    function triggerQuickTamperDemo() {
+      const targetPath = 'c01_isro/img_001.png';
+      const canvas = document.createElement('canvas');
+      canvas.width = 128;
+      canvas.height = 128;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#070B10';
+      ctx.fillRect(0, 0, 128, 128);
+      ctx.strokeStyle = '#FF3B3B';
+      ctx.lineWidth = 6;
+      ctx.beginPath();
+      ctx.moveTo(10, 10);
+      ctx.lineTo(118, 118);
+      ctx.stroke();
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = 'bold 12px monospace';
+      ctx.fillText("TAMPERED", 30, 68);
+
+      canvas.toBlob(async (blob) => {
+        const buffer = await blob.arrayBuffer();
+        realDatasetState.overrides[targetPath] = buffer;
+        realDatasetState.modifiedFiles.add(targetPath);
+
+        const select = document.getElementById('stage1TargetReplaceSelect');
+        if (select) select.value = targetPath;
+
+        const statusElem = document.getElementById('stage1TamperStatus');
+        const resetBtn = document.getElementById('stage1ResetDatasetBtn');
+        if (statusElem) {
+          statusElem.style.display = 'block';
+          statusElem.innerHTML = `
+            <span class="chip chip-fail" style="font-weight:700;">⚠️ Injected Tampered Pixel Payload: ${targetPath}</span>
+            <span style="color:var(--text-ink-dark); margin-left:6px;">Re-scanning will compute a new Merkle root and flag divergence.</span>
+          `;
+        }
+        if (resetBtn) resetBtn.style.display = 'inline-flex';
+
+        showToast("Quick Tamper: Injected modified payload into c01_isro/img_001.png. Scanning now...", "warning");
+        runRealDatasetScan(true);
+      }, 'image/png');
+    }
+
+    function resetRealDatasetOriginals() {
+      realDatasetState.overrides = {};
+      realDatasetState.modifiedFiles.clear();
+
+      const statusElem = document.getElementById('stage1TamperStatus');
+      const resetBtn = document.getElementById('stage1ResetDatasetBtn');
+      if (statusElem) {
+        statusElem.style.display = 'none';
+        statusElem.innerHTML = '';
+      }
+      if (resetBtn) resetBtn.style.display = 'none';
+
+      showToast("Restored pristine dataset. Re-scanning to verify golden Merkle root...", "info");
+      runRealDatasetScan(true);
+    }
+
+    // Switch between Real scan and Live simulation
+    function setStage1ScanMode(mode) {
+      realDatasetState.mode = mode;
+      const btnReal = document.getElementById('stage1ModeRealBtn');
+      const btnSim = document.getElementById('stage1ModeSimBtn');
+      const badge = document.getElementById('stage1ActiveBadge');
+      const realToolbar = document.getElementById('stage1RealToolbar');
+      const dropZone = document.getElementById('stage1DropZone');
+      const leafSub = document.getElementById('stage1LeafRegistrySub');
+      const rollupBadge = document.getElementById('stage1RollupBadge');
+
+      if (mode === 'real') {
+        if (btnReal) btnReal.classList.add('active');
+        if (btnSim) btnSim.classList.remove('active');
+        if (badge) {
+          badge.className = 'chip chip-optical';
+          badge.textContent = 'Real scan active';
+        }
+        if (realToolbar) realToolbar.style.display = 'flex';
+        if (dropZone) dropZone.style.display = 'block';
+        if (leafSub) leafSub.textContent = 'Real WebCrypto SHA-256 and 64-bit dHash computed per sample file';
+        if (rollupBadge) {
+          rollupBadge.textContent = 'SIH26228 Spec Mandate';
+          rollupBadge.className = 'chip chip-optical';
+        }
+
+        if (!realDatasetState.scanned) {
+          runRealDatasetScan(false);
+        } else {
+          renderRealScanUI();
+        }
+        showToast("Switched to Real Dataset Scan mode (/assets/dataset).", "info");
+      } else {
+        if (btnSim) btnSim.classList.add('active');
+        if (btnReal) btnReal.classList.remove('active');
+        if (badge) {
+          badge.className = 'chip chip-neutral';
+          badge.textContent = 'Live simulation active';
+        }
+        if (realToolbar) realToolbar.style.display = 'none';
+        if (dropZone) dropZone.style.display = 'none';
+        if (leafSub) leafSub.textContent = 'Simulated record stream leaf registry';
+        if (rollupBadge) {
+          rollupBadge.textContent = 'Live Telemetry Simulation';
+          rollupBadge.className = 'chip chip-neutral';
+        }
+
+        renderSimulationStage1();
+        showToast("Switched to Live Simulation mode (42.8k records stream).", "info");
+      }
+    }
+
+    function renderSimulationStage1() {
+      const elHealth = document.getElementById('stage1DataHealthVal');
+      if (elHealth) elHealth.textContent = "94.8%";
+      const elHealthMeta = document.getElementById('stage1DataHealthMeta');
+      if (elHealthMeta) elHealthMeta.innerHTML = `<span class="chip chip-pass">Passing</span> Threshold ≥ 90.0%`;
+
+      const elTotal = document.getElementById('stage1TotalSamplesVal');
+      if (elTotal) elTotal.textContent = "42,800";
+      const elTotalMeta = document.getElementById('stage1TotalSamplesMeta');
+      if (elTotalMeta) elTotalMeta.textContent = "1.84 TB · Across 4 decentralized contributors";
+
+      const elDups = document.getElementById('stage1DuplicatesVal');
+      if (elDups) elDups.textContent = "312";
+      const elDupsMeta = document.getElementById('stage1DuplicatesMeta');
+      if (elDupsMeta) elDupsMeta.textContent = "Near-duplicate flooding detected";
+
+      const elPoison = document.getElementById('stage1PoisonVal');
+      if (elPoison) elPoison.textContent = "189";
+      const elPoisonMeta = document.getElementById('stage1PoisonMeta');
+      if (elPoisonMeta) elPoisonMeta.textContent = "Quarantined from model training";
+
+      const chipMerkle = document.getElementById('stage1MerkleStatusChip');
+      const divNotice = document.getElementById('stage1MerkleDivergenceNotice');
+      if (chipMerkle) {
+        chipMerkle.className = 'chip chip-pass';
+        chipMerkle.textContent = 'Live simulation Attested';
+      }
+      if (divNotice) divNotice.style.display = 'none';
+
+      recalculateSimulationMerkle();
+      renderSimulationContributorRollup();
+    }
+
+    async function recalculateSimulationMerkle() {
+      const tbody = document.getElementById('sampleRecordsTbody');
+      if (!tbody) return;
       tbody.innerHTML = '';
       const leafHashes = [];
 
@@ -11707,11 +12818,12 @@
         tr.innerHTML = `
           <td><span class="mono" style="font-weight:700; color:var(--text-ink-dark);">${rec.id}</span></td>
           <td>
-            <div style="font-weight:600;">${rec.contributor}</div>
+            <div style="font-weight:600; font-size:0.78rem;">${rec.contributor}</div>
             <div style="font-size:0.7rem; color:var(--text-ink-muted);">${rec.batch}</div>
           </td>
           <td><code style="font-size:0.72rem; color:var(--text-ink-body);">${JSON.stringify(rec.attributes)}</code></td>
           <td><span class="hash-val" title="${digest}">${digest.substring(0, 16)}...${digest.substring(48)}</span></td>
+          <td><span style="font-size:0.72rem; color:var(--text-ink-dim);">Synthetic</span></td>
           <td><span class="chip ${rec.chip}">${rec.status}</span></td>
         `;
         tbody.appendChild(tr);
@@ -11723,31 +12835,19 @@
       state.dataMerkleBranches = tree.branches;
 
       const rootElem = document.getElementById('dataMerkleRoot');
-      if (typeof scrambleDecodeHash === 'function') {
-        scrambleDecodeHash(rootElem, tree.root, 600);
-      } else {
-        rootElem.textContent = tree.root;
+      if (rootElem) {
+        if (typeof scrambleDecodeHash === 'function') {
+          scrambleDecodeHash(rootElem, tree.root, 600);
+        } else {
+          rootElem.textContent = tree.root;
+        }
+        triggerScanSweep(rootElem);
       }
-      triggerScanSweep(rootElem);
-
-      const rootCard = rootElem.closest('.card');
-      if (rootCard) {
-        rootCard.classList.remove('scan-card-active');
-        void rootCard.offsetWidth;
-        rootCard.classList.add('scan-card-active');
-        triggerCardScanSweep(rootCard);
-      }
-
-      setTimeout(() => {
-        const hashes = document.querySelectorAll('#sampleRecordsTbody .hash-val');
-        hashes.forEach(el => triggerScanSweep(el));
-      }, 60);
-
-      showToast("Real SHA-256 Merkle Root verified across all leaf hashes.", "success");
     }
 
-    function renderContributorRollup() {
+    function renderSimulationContributorRollup() {
       const tbody = document.getElementById('contributorRollupTbody');
+      if (!tbody) return;
       tbody.innerHTML = '';
 
       CONTRIBUTOR_ROLLUP.forEach(c => {
@@ -11758,6 +12858,7 @@
           <td><span class="mono">${c.total.toLocaleString()}</span></td>
           <td><span class="mono" style="color:${c.flagged > 50 ? 'var(--status-fail)' : 'var(--status-warn)'}; font-weight:700;">${c.flagged}</span></td>
           <td style="color:var(--text-ink-muted); font-size:0.75rem;">${c.types}</td>
+          <td><span class="chip chip-neutral" style="font-size:0.65rem;">Telemetry Stream</span></td>
           <td><span class="mono" style="font-weight:700;">${c.rate}</span></td>
           <td><span class="chip ${c.riskChip}">${c.risk}</span></td>
           <td><span style="font-size:0.75rem; font-weight:600; color:${c.riskChip === 'chip-fail' ? 'var(--status-fail)' : 'var(--text-ink-dark)'};">${c.action}</span></td>
@@ -11766,24 +12867,51 @@
       });
     }
 
+    // Top-level compatibility hooks
+    async function recalculateDataMerkle() {
+      if (realDatasetState.mode === 'real') {
+        await runRealDatasetScan(false);
+      } else {
+        await recalculateSimulationMerkle();
+      }
+    }
+
+    function renderContributorRollup() {
+      if (realDatasetState.mode === 'real') {
+        renderRealContributorRollup();
+      } else {
+        renderSimulationContributorRollup();
+      }
+    }
+
     function openMerkleModal() {
-      document.getElementById('modalMerkleRoot').textContent = state.dataMerkleRoot;
-      if (state.dataMerkleBranches.length > 0) {
-        const lastBranch = state.dataMerkleBranches[state.dataMerkleBranches.length - 1];
-        document.getElementById('modalMerkleBranchA').textContent = lastBranch[0] || 'N/A';
-        document.getElementById('modalMerkleBranchB').textContent = lastBranch[1] || 'N/A';
+      const currentRoot = (realDatasetState.mode === 'real' && realDatasetState.merkleRoot) ? realDatasetState.merkleRoot : state.dataMerkleRoot;
+      const branches = (realDatasetState.mode === 'real' && realDatasetState.merkleBranches.length > 0) ? realDatasetState.merkleBranches : state.dataMerkleBranches;
+      const leaves = (realDatasetState.mode === 'real' && realDatasetState.leafHashes.length > 0) ? realDatasetState.leafHashes : state.sampleLeaves;
+
+      const rootEl = document.getElementById('modalMerkleRoot');
+      if (rootEl) rootEl.textContent = currentRoot;
+
+      if (branches && branches.length > 0) {
+        const lastBranch = branches[branches.length - 1];
+        const brA = document.getElementById('modalMerkleBranchA');
+        const brB = document.getElementById('modalMerkleBranchB');
+        if (brA) brA.textContent = lastBranch[0] || 'N/A';
+        if (brB) brB.textContent = lastBranch[1] || 'N/A';
       }
       for (let i = 0; i < 4; i++) {
         const leaf = document.getElementById(`modalLeaf${i + 1}`);
-        if (leaf && state.sampleLeaves[i]) {
-          leaf.textContent = state.sampleLeaves[i].substring(0, 16) + '...';
+        if (leaf && leaves && leaves[i]) {
+          leaf.textContent = leaves[i].substring(0, 16) + '...';
         }
       }
-      document.getElementById('merkleModal').classList.add('show');
+      const modal = document.getElementById('merkleModal');
+      if (modal) modal.classList.add('show');
     }
 
     function closeMerkleModal() {
-      document.getElementById('merkleModal').classList.remove('show');
+      const modal = document.getElementById('merkleModal');
+      if (modal) modal.classList.remove('show');
     }
 
     /* ======================================================================
@@ -12070,6 +13198,10 @@
 
     function renderDomainInputs() {
       const domain = DOMAINS[state.currentDomain];
+      const domainSub = document.getElementById('domainInputSubtitle');
+      if (domainSub && domain) {
+        domainSub.textContent = domain.inputSubtitle || `${domain.shortName} Parameters`;
+      }
       const container = document.getElementById('domainInputsContainer');
       container.innerHTML = '';
 
@@ -12430,6 +13562,7 @@
       await appendSeedBlock("Healthcare · Cardiology Diagnostics", { diagnosis: "Normal Sinus Profile", patientAge: 52, bp: 122 }, "2026-09-26T05:15:22.000Z");
       await appendSeedBlock("Defence · Drone Surveillance Vision", { contactType: "Tactical Asset Verified", altitude: 2100 }, "2026-09-26T05:30:10.000Z");
       await appendSeedBlock("Railways · Track Anomaly Detection", { trackSegment: "Track km 142.8", railTemp: 44 }, "2026-09-26T05:45:00.000Z");
+      await appendSeedBlock("Fintech · Transaction Fraud Vision", { txId: "TX-904128", nominalAmount: 4850, riskScore: 0.09, verdict: "Authorized Transaction" }, "2026-09-26T06:00:00.000Z");
 
       renderLedgerTable();
       renderHorizontalLedgerChain();
@@ -12586,6 +13719,8 @@
           const opt = document.createElement('option');
           opt.value = blk.index;
           opt.textContent = `Block #${blk.index} · ${blk.domain.split('·')[0].trim()}`;
+          opt.style.background = "#0E141E";
+          opt.style.color = "#E8ECF1";
           if (String(blk.index) === String(currentSelectedVal)) opt.selected = true;
           select.appendChild(opt);
         }

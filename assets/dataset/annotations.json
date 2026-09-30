@@ -1,0 +1,1002 @@
+{
+  "info": {
+    "description": "TrustLens Multi-Contributor Benchmark Training Dataset",
+    "version": "1.0",
+    "year": 2026,
+    "contributor": "ISRO, DRDO, HAL, C-09 Vendor",
+    "date_created": "2026-09-30"
+  },
+  "licenses": [
+    {
+      "id": 1,
+      "name": "Restricted Defence Evaluation License",
+      "url": ""
+    }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "name": "satellite",
+      "supercategory": "space"
+    },
+    {
+      "id": 2,
+      "name": "radar_station",
+      "supercategory": "infrastructure"
+    },
+    {
+      "id": 3,
+      "name": "aircraft",
+      "supercategory": "aviation"
+    },
+    {
+      "id": 4,
+      "name": "drone",
+      "supercategory": "uav"
+    }
+  ],
+  "images": [
+    {
+      "id": 1,
+      "file_name": "c01_isro/img_001.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "ISRO (Space-Telemetry Payload)",
+      "contributor_id": "C-01",
+      "batch": "Batch-01",
+      "file_size": 2792,
+      "sha256": "14a06b0d6679d5eb6c402a2d0290aab4d618aec14ccc37c1473d01666dda54c3"
+    },
+    {
+      "id": 2,
+      "file_name": "c01_isro/img_002.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "ISRO (Space-Telemetry Payload)",
+      "contributor_id": "C-01",
+      "batch": "Batch-01",
+      "file_size": 3420,
+      "sha256": "69b7f02e2ceb5894f5b2b7864dd45c18edc49d8eb4dcda4bd36301d01ac2ec39"
+    },
+    {
+      "id": 3,
+      "file_name": "c01_isro/img_003.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "ISRO (Space-Telemetry Payload)",
+      "contributor_id": "C-01",
+      "batch": "Batch-01",
+      "file_size": 2544,
+      "sha256": "55c33ca51b1777d9ebea7e32f0c3e92471ea38bf4c20dcc7c8756f56f73dac00"
+    },
+    {
+      "id": 4,
+      "file_name": "c01_isro/img_004.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "ISRO (Space-Telemetry Payload)",
+      "contributor_id": "C-01",
+      "batch": "Batch-01",
+      "file_size": 2546,
+      "sha256": "e774604306ee8d40d9c3f26eb47f92f0d7752bb7756994ca12963138b542d460"
+    },
+    {
+      "id": 5,
+      "file_name": "c01_isro/img_005.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "ISRO (Space-Telemetry Payload)",
+      "contributor_id": "C-01",
+      "batch": "Batch-01",
+      "file_size": 3008,
+      "sha256": "0e3878bd1538a30907d7bb090c1df0f6611953cf452be07311e5e5114b935e00"
+    },
+    {
+      "id": 6,
+      "file_name": "c01_isro/img_006.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "ISRO (Space-Telemetry Payload)",
+      "contributor_id": "C-01",
+      "batch": "Batch-01",
+      "file_size": 2515,
+      "sha256": "cf04580336091b14cef62667563e8e8c2ab239f9792cb9c4e875182067b7d1c5"
+    },
+    {
+      "id": 7,
+      "file_name": "c01_isro/img_007.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "ISRO (Space-Telemetry Payload)",
+      "contributor_id": "C-01",
+      "batch": "Batch-01",
+      "file_size": 1859,
+      "sha256": "8dde65fc4baa3a0b97bfb6c666f98fe3b501388949e0867c49307a05d230fda1"
+    },
+    {
+      "id": 8,
+      "file_name": "c01_isro/img_008.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "ISRO (Space-Telemetry Payload)",
+      "contributor_id": "C-01",
+      "batch": "Batch-01",
+      "file_size": 3810,
+      "sha256": "d1419d9a9be7f37dad9d6d6cf470ced9a52d6cf0005ca01dbe74ec7432500abd"
+    },
+    {
+      "id": 9,
+      "file_name": "c01_isro/img_009.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "ISRO (Space-Telemetry Payload)",
+      "contributor_id": "C-01",
+      "batch": "Batch-01",
+      "file_size": 3416,
+      "sha256": "9789f782085114735135eb567996ebf2b2c2293ea76112b46bbf565103eb0be1"
+    },
+    {
+      "id": 10,
+      "file_name": "c01_isro/img_010.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "ISRO (Space-Telemetry Payload)",
+      "contributor_id": "C-01",
+      "batch": "Batch-01",
+      "file_size": 1943,
+      "sha256": "07aa8dcb062e81959b4f2a0b86119da90a4e9159e279b9c4540a290845af6344"
+    },
+    {
+      "id": 11,
+      "file_name": "c06_drdo/img_011.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "DRDO (Defence R&D Lab)",
+      "contributor_id": "C-06",
+      "batch": "Batch-02",
+      "file_size": 2790,
+      "sha256": "8be7545dc0a02b5441dc614400c264b9df3dffd106e96bf035df7582f7f5feda"
+    },
+    {
+      "id": 12,
+      "file_name": "c06_drdo/img_012.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "DRDO (Defence R&D Lab)",
+      "contributor_id": "C-06",
+      "batch": "Batch-02",
+      "file_size": 2717,
+      "sha256": "f6805de31cb14c0db10c3e990fa22407ffb54c4fc2eb5e90fe7f20b733ceacd6"
+    },
+    {
+      "id": 13,
+      "file_name": "c06_drdo/img_013.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "DRDO (Defence R&D Lab)",
+      "contributor_id": "C-06",
+      "batch": "Batch-02",
+      "file_size": 2338,
+      "sha256": "dc60a3cd9410dfc7e52bf283db8f78735bdca685824a8b258151e43c021a6af9"
+    },
+    {
+      "id": 14,
+      "file_name": "c06_drdo/img_014.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "DRDO (Defence R&D Lab)",
+      "contributor_id": "C-06",
+      "batch": "Batch-02",
+      "file_size": 2656,
+      "sha256": "160d404f2b93c01a095a4bbf42e0d022f37401d9cba5f3d6bccabdaa444239cf"
+    },
+    {
+      "id": 15,
+      "file_name": "c06_drdo/img_015.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "DRDO (Defence R&D Lab)",
+      "contributor_id": "C-06",
+      "batch": "Batch-02",
+      "file_size": 2208,
+      "sha256": "78187eafa2d6f4c6d3f0404e655270662bda5eff8cdd88bf467663614a6ecf8d"
+    },
+    {
+      "id": 16,
+      "file_name": "c06_drdo/img_016.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "DRDO (Defence R&D Lab)",
+      "contributor_id": "C-06",
+      "batch": "Batch-02",
+      "file_size": 2716,
+      "sha256": "295505b6858fd20c01164d006dda5e23ea981dab36fc6ed4a2431fc3e66e6f6c"
+    },
+    {
+      "id": 17,
+      "file_name": "c06_drdo/img_017.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "DRDO (Defence R&D Lab)",
+      "contributor_id": "C-06",
+      "batch": "Batch-02",
+      "file_size": 2464,
+      "sha256": "cdc013313703215734671a9d85033933ba7efce46f01e81497e74e750502f141"
+    },
+    {
+      "id": 18,
+      "file_name": "c06_drdo/img_018.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "DRDO (Defence R&D Lab)",
+      "contributor_id": "C-06",
+      "batch": "Batch-02",
+      "file_size": 3140,
+      "sha256": "e979253f1ac66eae478a45dd4f99a8c757c9c210793507e2a55e84e3b3a32efb"
+    },
+    {
+      "id": 19,
+      "file_name": "c06_drdo/img_019.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "DRDO (Defence R&D Lab)",
+      "contributor_id": "C-06",
+      "batch": "Batch-02",
+      "file_size": 3592,
+      "sha256": "79480a27f3cf23eda197b4ab1210c07b0da010b1fa9ad4e554c3e3b2cfd0c8f8"
+    },
+    {
+      "id": 20,
+      "file_name": "c06_drdo/img_020.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "DRDO (Defence R&D Lab)",
+      "contributor_id": "C-06",
+      "batch": "Batch-02",
+      "file_size": 3369,
+      "sha256": "06731c44e4712c2b862e9fc825327522a514600d97e3e6626691c207289c665a"
+    },
+    {
+      "id": 21,
+      "file_name": "c03_hal/img_021.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "HAL (Aerospace Avionics)",
+      "contributor_id": "C-03",
+      "batch": "Batch-03",
+      "file_size": 2049,
+      "sha256": "1c46e8453d87ffbe7cf8bac33fe099cd2cd7c81b0255cf45b8abbc85a9ab9594"
+    },
+    {
+      "id": 22,
+      "file_name": "c03_hal/img_022.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "HAL (Aerospace Avionics)",
+      "contributor_id": "C-03",
+      "batch": "Batch-03",
+      "file_size": 2046,
+      "sha256": "d420401131c06959a6db305410cf6b1d76efa20e1804fc2496858bdca09ece60"
+    },
+    {
+      "id": 23,
+      "file_name": "c03_hal/img_023.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "HAL (Aerospace Avionics)",
+      "contributor_id": "C-03",
+      "batch": "Batch-03",
+      "file_size": 2025,
+      "sha256": "2f21462b5aa55f7ca6d179f98cfb74ad95e59b7304dbf036fb63121fa1693c6f"
+    },
+    {
+      "id": 24,
+      "file_name": "c03_hal/img_024.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "HAL (Aerospace Avionics)",
+      "contributor_id": "C-03",
+      "batch": "Batch-03",
+      "file_size": 2054,
+      "sha256": "9f84cc83aa3c02019a003106dd6e57c996edf8e95d78b77d4382048317989c83"
+    },
+    {
+      "id": 25,
+      "file_name": "c03_hal/img_025.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "HAL (Aerospace Avionics)",
+      "contributor_id": "C-03",
+      "batch": "Batch-03",
+      "file_size": 2564,
+      "sha256": "d115a812345e0e00908653c509de5903e6e7270251d70f4f46e9c79736b9fa76"
+    },
+    {
+      "id": 26,
+      "file_name": "c03_hal/img_026.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "HAL (Aerospace Avionics)",
+      "contributor_id": "C-03",
+      "batch": "Batch-03",
+      "file_size": 4759,
+      "sha256": "ff46491975ad17fa20d46d6b07e5646ac1a6195e354b9e5027e5878c0bb61261"
+    },
+    {
+      "id": 27,
+      "file_name": "c03_hal/img_027.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "HAL (Aerospace Avionics)",
+      "contributor_id": "C-03",
+      "batch": "Batch-03",
+      "file_size": 1560,
+      "sha256": "e2dbf5118031be5d449374ea7a2e011e784f0ce1f3cdc9bbb1a0fb2d99c52749"
+    },
+    {
+      "id": 28,
+      "file_name": "c03_hal/img_028.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "HAL (Aerospace Avionics)",
+      "contributor_id": "C-03",
+      "batch": "Batch-03",
+      "file_size": 1560,
+      "sha256": "e2dbf5118031be5d449374ea7a2e011e784f0ce1f3cdc9bbb1a0fb2d99c52749"
+    },
+    {
+      "id": 29,
+      "file_name": "c03_hal/img_029.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "HAL (Aerospace Avionics)",
+      "contributor_id": "C-03",
+      "batch": "Batch-03",
+      "file_size": 2970,
+      "sha256": "34754ab44ed0034517087ef8d19c4fc5f7c4eff81e8f81298a5f1bc2e6c6aefe"
+    },
+    {
+      "id": 30,
+      "file_name": "c03_hal/img_030.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "HAL (Aerospace Avionics)",
+      "contributor_id": "C-03",
+      "batch": "Batch-03",
+      "file_size": 2970,
+      "sha256": "34754ab44ed0034517087ef8d19c4fc5f7c4eff81e8f81298a5f1bc2e6c6aefe"
+    },
+    {
+      "id": 31,
+      "file_name": "c09_vendor/img_031.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "External Vendor (C-09 Edge Fleet)",
+      "contributor_id": "C-09",
+      "batch": "Batch-04",
+      "file_size": 2519,
+      "sha256": "492a1f19022c514e6d6af086995cab83f4185f1f6bacdd71736c8386c6246dd0"
+    },
+    {
+      "id": 32,
+      "file_name": "c09_vendor/img_032.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "External Vendor (C-09 Edge Fleet)",
+      "contributor_id": "C-09",
+      "batch": "Batch-04",
+      "file_size": 2594,
+      "sha256": "1954fbfb20093e43fa8e665de6ac38f7c07f57a20e4dc34a1e9186dca05e1d41"
+    },
+    {
+      "id": 33,
+      "file_name": "c09_vendor/img_033.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "External Vendor (C-09 Edge Fleet)",
+      "contributor_id": "C-09",
+      "batch": "Batch-04",
+      "file_size": 2354,
+      "sha256": "13e68b9b0784b6d3f4b2ff1673929e26c0674613e2473e8c4da004cfbe3f48ef"
+    },
+    {
+      "id": 34,
+      "file_name": "c09_vendor/img_034.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "External Vendor (C-09 Edge Fleet)",
+      "contributor_id": "C-09",
+      "batch": "Batch-04",
+      "file_size": 2206,
+      "sha256": "f467f2867a82af6daf674734fba20427baa3bb25f47e573b1e9e57f5298462e2"
+    },
+    {
+      "id": 35,
+      "file_name": "c09_vendor/img_035.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "External Vendor (C-09 Edge Fleet)",
+      "contributor_id": "C-09",
+      "batch": "Batch-04",
+      "file_size": 2457,
+      "sha256": "4f601edfb8c0df5ceb6700e48598ebbb74f23dc2f5c8f44ac7e7fa992c69ec75"
+    },
+    {
+      "id": 36,
+      "file_name": "c09_vendor/img_036.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "External Vendor (C-09 Edge Fleet)",
+      "contributor_id": "C-09",
+      "batch": "Batch-04",
+      "file_size": 2937,
+      "sha256": "ebdc4ccdd7e8661495b037f95ecac53e6516eb8a2721145f4bffb56a69aff4d1"
+    },
+    {
+      "id": 37,
+      "file_name": "c09_vendor/img_037.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "External Vendor (C-09 Edge Fleet)",
+      "contributor_id": "C-09",
+      "batch": "Batch-04",
+      "file_size": 2075,
+      "sha256": "64de202ab2acb1338ba7c34fbab08292bd647d2bcbd1ad582bcaacec602b43a7"
+    },
+    {
+      "id": 38,
+      "file_name": "c09_vendor/img_038.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "External Vendor (C-09 Edge Fleet)",
+      "contributor_id": "C-09",
+      "batch": "Batch-04",
+      "file_size": 2075,
+      "sha256": "64de202ab2acb1338ba7c34fbab08292bd647d2bcbd1ad582bcaacec602b43a7"
+    },
+    {
+      "id": 39,
+      "file_name": "c09_vendor/img_039.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "External Vendor (C-09 Edge Fleet)",
+      "contributor_id": "C-09",
+      "batch": "Batch-04",
+      "file_size": 3646,
+      "sha256": "0d49fe74a345fb568f6d331c003da7c50551a2c9cbd465dbd2d4d952c4f7be4c"
+    },
+    {
+      "id": 40,
+      "file_name": "c09_vendor/img_040.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "External Vendor (C-09 Edge Fleet)",
+      "contributor_id": "C-09",
+      "batch": "Batch-04",
+      "file_size": 3698,
+      "sha256": "bfde86df9365a7b639c0fa45628a1c5ff8c8695336233f447033c0be0409d5b4"
+    }
+  ],
+  "annotations": [
+    {
+      "id": 1,
+      "image_id": 1,
+      "category_id": 1,
+      "bbox": [
+        30,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 2,
+      "image_id": 2,
+      "category_id": 1,
+      "bbox": [
+        40,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 3,
+      "image_id": 3,
+      "category_id": 1,
+      "bbox": [
+        20,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 4,
+      "image_id": 4,
+      "category_id": 1,
+      "bbox": [
+        30,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 5,
+      "image_id": 5,
+      "category_id": 1,
+      "bbox": [
+        40,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 6,
+      "image_id": 6,
+      "category_id": 1,
+      "bbox": [
+        20,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 7,
+      "image_id": 7,
+      "category_id": 1,
+      "bbox": [
+        30,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 8,
+      "image_id": 8,
+      "category_id": 1,
+      "bbox": [
+        40,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 9,
+      "image_id": 9,
+      "category_id": 1,
+      "bbox": [
+        20,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 10,
+      "image_id": 10,
+      "category_id": 1,
+      "bbox": [
+        30,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 11,
+      "image_id": 11,
+      "category_id": 2,
+      "bbox": [
+        30,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 12,
+      "image_id": 12,
+      "category_id": 2,
+      "bbox": [
+        40,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 13,
+      "image_id": 13,
+      "category_id": 2,
+      "bbox": [
+        20,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 14,
+      "image_id": 14,
+      "category_id": 2,
+      "bbox": [
+        30,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 15,
+      "image_id": 15,
+      "category_id": 2,
+      "bbox": [
+        40,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 16,
+      "image_id": 16,
+      "category_id": 2,
+      "bbox": [
+        20,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 17,
+      "image_id": 17,
+      "category_id": 2,
+      "bbox": [
+        30,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 18,
+      "image_id": 18,
+      "category_id": 2,
+      "bbox": [
+        40,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 19,
+      "image_id": 19,
+      "category_id": 2,
+      "bbox": [
+        20,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 20,
+      "image_id": 20,
+      "category_id": 2,
+      "bbox": [
+        30,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 21,
+      "image_id": 21,
+      "category_id": 3,
+      "bbox": [
+        30,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 22,
+      "image_id": 22,
+      "category_id": 3,
+      "bbox": [
+        40,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 23,
+      "image_id": 23,
+      "category_id": 3,
+      "bbox": [
+        20,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 24,
+      "image_id": 24,
+      "category_id": 3,
+      "bbox": [
+        30,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 25,
+      "image_id": 25,
+      "category_id": 3,
+      "bbox": [
+        40,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 26,
+      "image_id": 26,
+      "category_id": 3,
+      "bbox": [
+        20,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 27,
+      "image_id": 27,
+      "category_id": 3,
+      "bbox": [
+        30,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 28,
+      "image_id": 28,
+      "category_id": 3,
+      "bbox": [
+        40,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 29,
+      "image_id": 29,
+      "category_id": 3,
+      "bbox": [
+        20,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 30,
+      "image_id": 30,
+      "category_id": 3,
+      "bbox": [
+        30,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 31,
+      "image_id": 31,
+      "category_id": 4,
+      "bbox": [
+        30,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 32,
+      "image_id": 32,
+      "category_id": 4,
+      "bbox": [
+        40,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 33,
+      "image_id": 33,
+      "category_id": 4,
+      "bbox": [
+        20,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 34,
+      "image_id": 34,
+      "category_id": 4,
+      "bbox": [
+        30,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 35,
+      "image_id": 35,
+      "category_id": 4,
+      "bbox": [
+        40,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 36,
+      "image_id": 36,
+      "category_id": 4,
+      "bbox": [
+        20,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 37,
+      "image_id": 37,
+      "category_id": 4,
+      "bbox": [
+        30,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 38,
+      "image_id": 38,
+      "category_id": 4,
+      "bbox": [
+        40,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 39,
+      "image_id": 39,
+      "category_id": 999,
+      "bbox": [
+        24,
+        24,
+        50,
+        50
+      ],
+      "area": 2500,
+      "iscrowd": 0
+    },
+    {
+      "id": 40,
+      "image_id": 40,
+      "category_id": 4,
+      "bbox": [
+        100,
+        95,
+        45,
+        40
+      ],
+      "area": 1800,
+      "iscrowd": 0
+    }
+  ]
+}
