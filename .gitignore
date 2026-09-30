@@ -216,3 +216,10 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Local browser and scratch files
+.chrome-profile/
+scratch/
+*.bak
+*.pre_*
+.DS_Store

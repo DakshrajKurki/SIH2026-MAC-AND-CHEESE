@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="vendor/three.min.js"></script>
+  <script src="vendor/globe.gl.min.js"></script>
+  <style>
+    body { margin: 0; background: #0E131B; overflow: hidden; }
+    #globe-hero { width: 480px; height: 220px; position: relative; background: #0E131B; }
+  </style>
+</head>
+<body>
+  <div id="globe-hero"></div>
+  <script>
+    console.log("THREE:", typeof THREE);
+    console.log("Globe:", typeof Globe);
+    try {
+      const container = document.getElementById('globe-hero');
+      const globe = Globe()(container)
+        .width(480)
+        .height(220)
+        .backgroundColor('rgba(0,0,0,0)')
+        .showAtmosphere(true)
+        .atmosphereColor('#22A8BC')
+        .atmosphereAltitude(0.2)
+        .pointsData([
+          { name: "HQ - New Delhi", lat: 28.6139, lng: 77.2090, size: 0.8, color: '#38BDF8' },
+          { name: "ISRO - Bengaluru", lat: 12.9716, lng: 77.5946, size: 0.7, color: '#22C55E' },
+          { name: "DRDO - Hyderabad", lat: 17.3850, lng: 78.4867, size: 0.65, color: '#22C55E' },
+          { name: "BEL - Ghaziabad", lat: 28.6692, lng: 77.4538, size: 0.6, color: '#22A8BC' },
+          { name: "HAL - Bengaluru", lat: 13.0827, lng: 80.2707, size: 0.6, color: '#F59E0B' },
+          { name: "Vendor - C-09 Fleet", lat: 34.0837, lng: 74.7973, size: 0.8, color: '#EF4444' }
+        ])
+        .pointAltitude(0.04)
+        .pointRadius('size')
+        .pointColor('color')
+        .arcsData([
+          { startLat: 12.9716, startLng: 77.5946, endLat: 28.6139, endLng: 77.2090, color: ['#22C55E', '#38BDF8'] },
+          { startLat: 17.3850, startLng: 78.4867, endLat: 28.6139, endLng: 77.2090, color: ['#22C55E', '#38BDF8'] },
+          { startLat: 13.0827, startLng: 80.2707, endLat: 28.6139, endLng: 77.2090, color: ['#F59E0B', '#38BDF8'] },
+          { startLat: 34.0837, startLng: 74.7973, endLat: 28.6139, endLng: 77.2090, color: ['#EF4444', '#EF4444'] }
+        ])
+        .arcColor('color')
+        .arcAltitude(0.25)
+        .arcStroke(1.2)
+        .arcDashLength(0.4)
+        .arcDashGap(0.2)
+        .arcDashAnimateTime(1800);
+
+      globe.pointOfView({ lat: 22.0, lng: 78.5, altitude: 2.2 });
+      if (typeof THREE !== 'undefined' && globe.globeMaterial) {
+        globe.globeMaterial(new THREE.MeshStandardMaterial({
+          color: 0x090D14,
+          roughness: 0.8,
+          metalness: 0.2
+        }));
+      }
+      console.log("Globe initialization SUCCESS!");
+    } catch(err) {
+      console.error("Globe init error:", err);
+    }
+  </script>
+</body>
+</html>
+  
