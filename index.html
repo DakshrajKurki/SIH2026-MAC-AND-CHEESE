@@ -4026,9 +4026,22 @@
       flex: 1;
     }
 
-    /* GLASS CARD COMPONENT SPEC (ALL CARDS & MODALS) */
-    .glass-card, .card, .overview-card, .modal-dialog, .certificate-panel {
-      background: rgba(16, 22, 32, 0.55) !important;
+    /* GLASS CARD COMPONENT SPEC (ALL CARDS) — no backdrop-filter for perf */
+    .glass-card, .card, .overview-card {
+      background: rgba(16, 22, 32, 0.85) !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      border-top-color: rgba(255, 255, 255, 0.12) !important;
+      border-bottom-color: rgba(255, 255, 255, 0.04) !important;
+      border-radius: 16px !important;
+      padding: 24px !important;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 20px 40px rgba(0, 0, 0, 0.35) !important;
+      box-sizing: border-box;
+      position: relative;
+      transition: border-color 0.25s ease;
+    }
+    /* Modals/cert panels keep blur */
+    .modal-dialog, .certificate-panel {
+      background: rgba(16, 22, 32, 0.92) !important;
       backdrop-filter: blur(18px) saturate(140%) !important;
       -webkit-backdrop-filter: blur(18px) saturate(140%) !important;
       border: 1px solid rgba(255, 255, 255, 0.08) !important;
@@ -4039,7 +4052,6 @@
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 20px 40px rgba(0, 0, 0, 0.35) !important;
       box-sizing: border-box;
       position: relative;
-      transition: border-color 0.25s ease;
     }
     .glass-card:hover, .card:hover, .overview-card:hover {
       border-top-color: rgba(255, 255, 255, 0.16) !important;
@@ -4918,18 +4930,14 @@
       background: radial-gradient(circle, rgba(201, 162, 74, 0.10) 0%, rgba(201, 162, 74, 0.03) 50%, transparent 70%) !important;
     }
 
-    /* 3. GLASS CARDS: Visibly blur the aurora behind them */
+    /* 3. GLASS CARDS: solid dark bg — no per-card backdrop-filter (perf) */
     .glass-card {
-      background: rgba(13, 19, 28, 0.65) !important;
-      backdrop-filter: blur(20px) saturate(140%) !important;
-      -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
+      background: rgba(16, 22, 32, 0.85) !important;
     }
 
-    /* 4. HERO CARDS (Trust Index & Globe) STRONGER GLASS DEPTH */
+    /* 4. HERO CARDS (Trust Index & Globe) */
     .hero-glass-card {
-      background: rgba(13, 19, 28, 0.72) !important;
-      backdrop-filter: blur(24px) saturate(150%) !important;
-      -webkit-backdrop-filter: blur(24px) saturate(150%) !important;
+      background: rgba(16, 22, 32, 0.88) !important;
       border: 1px solid transparent !important;
       background-image: 
         linear-gradient(rgba(13, 19, 28, 0.75), rgba(13, 19, 28, 0.75)), 
@@ -10539,8 +10547,9 @@
         }
       }
 
-      if (pipelineAnimId) cancelAnimationFrame(pipelineAnimId);
-      pipelineAnimId = requestAnimationFrame(pipelineRenderLoop);
+      if (pipelineAnimId !== -1) {
+        pipelineAnimId = requestAnimationFrame(pipelineRenderLoop);
+      }
     }
 
     function resizePipelineCanvas() {
@@ -10654,6 +10663,8 @@
     }
 
     function resumePipelineCanvasIfNeeded() {
+      // If master rAF has taken over (sentinel -1), do nothing
+      if (pipelineAnimId === -1) return;
       if (isPipelineCanvasVisible() && !pipelineAnimId) {
         pipelineAnimId = requestAnimationFrame(pipelineRenderLoop);
       }
@@ -10693,7 +10704,10 @@
       // Draw Nodes
       drawPipelineNodes();
 
-      pipelineAnimId = requestAnimationFrame(pipelineRenderLoop);
+      // Only re-schedule if master rAF hasn't taken over (pipelineAnimId !== -1)
+      if (pipelineAnimId !== -1) {
+        pipelineAnimId = requestAnimationFrame(pipelineRenderLoop);
+      }
     }
 
     function drawPipelineConduits(w, h) {
@@ -13334,6 +13348,469 @@
     }
 
   </script>
+
+  <!-- ====================================================================
+       PERFORMANCE PATCH: Single rAF master loop, IntersectionObserver,
+       globe pixel-ratio cap, arc cap, lazy ECharts, sim throttle (SIH26228)
+       ==================================================================== -->
+  <script>
+  /* -----------------------------------------------------------------------
+     1. SHARED MASTER RAF LOOP
+     All per-frame work (constellation, pipeline, particles) runs here.
+     Each subsystem registers itself; the master loop calls enabled ones.
+     ----------------------------------------------------------------------- */
+  (function() {
+    'use strict';
+
+    const _masterCbs = new Set();
+    let _masterRafId = null;
+    let _masterRunning = false;
+
+    function _masterTick(ts) {
+      _masterRafId = requestAnimationFrame(_masterTick);
+      _masterCbs.forEach(cb => { try { cb(ts); } catch(e) {} });
+    }
+
+    function masterRaf_start() {
+      if (_masterRunning) return;
+      _masterRunning = true;
+      _masterRafId = requestAnimationFrame(_masterTick);
+    }
+
+    function masterRaf_stop() {
+      if (!_masterRunning) return;
+      _masterRunning = false;
+      if (_masterRafId) { cancelAnimationFrame(_masterRafId); _masterRafId = null; }
+    }
+
+    function masterRaf_register(cb) {
+      _masterCbs.add(cb);
+      if (!_masterRunning) masterRaf_start();
+    }
+
+    function masterRaf_unregister(cb) {
+      _masterCbs.delete(cb);
+      if (_masterCbs.size === 0) masterRaf_stop();
+    }
+
+    window._masterRaf = { register: masterRaf_register, unregister: masterRaf_unregister };
+
+    /* -----------------------------------------------------------------------
+       2. CONSTELLATION NETWORK — capped at 25 particles, merged into master
+       ----------------------------------------------------------------------- */
+    function patchConstellation() {
+      // Wait until initConstellationNetwork has run (constellationNodes exists)
+      function tryPatch() {
+        if (typeof constellationNodes === 'undefined' || !constellationNodes) {
+          setTimeout(tryPatch, 200);
+          return;
+        }
+
+        // Cap to 25 nodes
+        if (constellationNodes.length > 25) {
+          constellationNodes.length = 25;
+        }
+
+        // Cancel existing independent loop
+        if (typeof constellationAnimId !== 'undefined' && constellationAnimId) {
+          cancelAnimationFrame(constellationAnimId);
+          constellationAnimId = null;
+        }
+
+        function constellationTick() {
+          if (!constellationCanvas || !constellationCtx) return;
+          if (document.hidden || state.reducedEffects) return;
+
+          const cw = constellationCanvas.width;
+          const ch = constellationCanvas.height;
+          const ctx = constellationCtx;
+          ctx.clearRect(0, 0, cw, ch);
+
+          for (let i = 0; i < constellationNodes.length; i++) {
+            const p = constellationNodes[i];
+            p.x += p.vx;
+            p.y += p.vy;
+            if (p.x < 0) p.x = cw;
+            else if (p.x > cw) p.x = 0;
+            if (p.y < 0) p.y = ch;
+            else if (p.y > ch) p.y = 0;
+
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(62,156,152,${p.alpha})`;
+            ctx.fill();
+
+            for (let j = i + 1; j < constellationNodes.length; j++) {
+              const p2 = constellationNodes[j];
+              const dx = p.x - p2.x;
+              const dy = p.y - p2.y;
+              const dist = Math.sqrt(dx * dx + dy * dy);
+              if (dist < 125) {
+                const lineAlpha = (1 - dist / 125) * 0.14;
+                ctx.beginPath();
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.strokeStyle = `rgba(62,156,152,${lineAlpha})`;
+                ctx.lineWidth = 0.75;
+                ctx.stroke();
+              }
+            }
+          }
+        }
+
+        masterRaf_register(constellationTick);
+        console.log('[Perf] Constellation merged into master rAF, capped at', constellationNodes.length, 'nodes.');
+      }
+      tryPatch();
+    }
+
+    /* -----------------------------------------------------------------------
+       3. PIPELINE CANVAS — merged into master rAF
+       ----------------------------------------------------------------------- */
+    function patchPipeline() {
+      function tryPatch() {
+        if (typeof pipelineRenderLoop === 'undefined') { setTimeout(tryPatch, 200); return; }
+
+        // The original pipelineRenderLoop already self-cancels when not visible.
+        // We keep its current stand-alone rAF approach since it already pauses properly.
+        // But cancel any orphaned rAF and use the master loop instead.
+        function pipelineTick() {
+          if (!pipelineCanvas || !pipelineCtx) return;
+          if (!isPipelineCanvasVisible()) return;
+
+          const w = pipelineCanvas.getBoundingClientRect().width || 960;
+          const h = 260;
+          pipelineCtx.clearRect(0, 0, w, h);
+
+          if (state.simActive && !state.walkthroughActive) {
+            pipelineSpawnTimer++;
+            if (pipelineSpawnTimer > 30 || pipelinePackets.length < 3) {
+              pipelineSpawnTimer = 0;
+              spawnPipelinePacket();
+            }
+          }
+
+          drawPipelineConduits(w, h);
+          updateAndDrawPipelinePackets();
+          updateAndDrawPipelineBursts();
+          drawPipelineNodes();
+        }
+
+        // Cancel old standalone loop and set sentinel -1 to prevent re-scheduling
+        if (typeof pipelineAnimId !== 'undefined' && pipelineAnimId) {
+          cancelAnimationFrame(pipelineAnimId);
+        }
+        pipelineAnimId = -1; // sentinel: master rAF has taken over
+
+        // Override resumePipelineCanvasIfNeeded — now a no-op since master loop handles it
+        window.resumePipelineCanvasIfNeeded = function() { /* master rAF handles */ };
+
+        masterRaf_register(pipelineTick);
+        console.log('[Perf] Pipeline merged into master rAF.');
+      }
+      tryPatch();
+    }
+
+    /* -----------------------------------------------------------------------
+       4. GLOBE — IntersectionObserver pause, DPR cap 1.5, max 8 arcs
+       ----------------------------------------------------------------------- */
+    function patchGlobe() {
+      function tryPatch() {
+        if (typeof defenceGlobeInstance === 'undefined') { setTimeout(tryPatch, 300); return; }
+        if (!defenceGlobeInstance) { setTimeout(tryPatch, 300); return; }
+
+        const container = document.getElementById('globe-hero');
+        if (!container) return;
+
+        // Cap pixel ratio
+        try {
+          const renderer = defenceGlobeInstance.renderer && defenceGlobeInstance.renderer();
+          if (renderer && renderer.setPixelRatio) {
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+          }
+        } catch(e) {}
+
+        // IntersectionObserver — pause globe when off-screen
+        const globeIO = new IntersectionObserver((entries) => {
+          for (const entry of entries) {
+            if (!defenceGlobeInstance) continue;
+            try {
+              const pauseFn = defenceGlobeInstance.pauseAnimation;
+              const resumeFn = defenceGlobeInstance.resumeAnimation;
+              if (entry.isIntersecting) {
+                if (resumeFn) resumeFn.call(defenceGlobeInstance);
+              } else {
+                if (pauseFn) pauseFn.call(defenceGlobeInstance);
+              }
+            } catch(e) {}
+          }
+        }, { threshold: 0.01 });
+        globeIO.observe(container);
+
+        console.log('[Perf] Globe IntersectionObserver attached, DPR capped at 1.5.');
+      }
+      tryPatch();
+    }
+
+    /* -----------------------------------------------------------------------
+       5. GLOBE ARC FIRING — replace setInterval with rAF-based timing
+       ----------------------------------------------------------------------- */
+    function patchGlobeArcFiring() {
+      function tryPatch() {
+        if (typeof globeArcFireTimer === 'undefined') { setTimeout(tryPatch, 300); return; }
+
+        // Stop the existing setInterval
+        if (globeArcFireTimer) {
+          clearInterval(globeArcFireTimer);
+          globeArcFireTimer = null;
+        }
+
+        let lastArcFire = 0;
+        const ARC_INTERVAL_MS = 1500;
+        const MAX_ACTIVE_ARCS = 8;
+
+        function arcFireTick(ts) {
+          if (!defenceGlobeInstance) return;
+          if (state.activeSection !== 0 || document.hidden || state.reducedEffects) return;
+          if (ts - lastArcFire < ARC_INTERVAL_MS) return;
+          lastArcFire = ts;
+
+          const domainKey = state.currentDomain || 'defence';
+          const data = DOMAIN_REGIONAL_DATA[domainKey] || DOMAIN_REGIONAL_DATA.defence;
+          const isIndiaMode = state.globeViewMode === 'india';
+          let arcs = isIndiaMode ? INDIA_ARCS : (data.arcs || []);
+          const currentRings = isIndiaMode ? INDIA_RINGS : (data.rings || []);
+          if (!arcs || arcs.length === 0) return;
+
+          // Cap arcs to max 8
+          if (arcs.length > MAX_ACTIVE_ARCS) {
+            arcs = arcs.slice(0, MAX_ACTIVE_ARCS);
+          }
+
+          const randomIndex = Math.floor(Math.random() * arcs.length);
+          const pulseArc = arcs[randomIndex];
+
+          if (defenceGlobeInstance.ringsData) {
+            const isPoisoned = pulseArc.type === 'poisoned' || (Array.isArray(pulseArc.color) && pulseArc.color[0] === '#F0524D');
+            const isSealed = pulseArc.type === 'sealed' || (Array.isArray(pulseArc.color) && pulseArc.color[0] === '#C9A24A');
+            const rippleColor = isPoisoned ? '#F0524D' : (isSealed ? '#C9A24A' : '#3E9C98');
+            const maxRadius = isPoisoned ? 5.2 : 3.8;
+            const speed = isPoisoned ? 3.2 : 2.4;
+
+            const tempRings = [
+              ...currentRings,
+              { lat: pulseArc.endLat, lng: pulseArc.endLng, maxR: maxRadius, propagationSpeed: speed, repeatPeriod: 600, color: () => rippleColor }
+            ];
+            defenceGlobeInstance.ringsData(tempRings);
+            // Reset rings after 900ms — use one-shot setTimeout (acceptable, not animation)
+            setTimeout(() => {
+              if (defenceGlobeInstance && !state.reducedEffects) {
+                const activeRings = (state.globeViewMode === 'india') ? INDIA_RINGS : (data.rings || []);
+                defenceGlobeInstance.ringsData(activeRings);
+              }
+            }, 900);
+          }
+        }
+
+        masterRaf_register(arcFireTick);
+        console.log('[Perf] Globe arc firing moved from setInterval to master rAF.');
+      }
+      tryPatch();
+    }
+
+    /* -----------------------------------------------------------------------
+       6. ECHARTS — add lazyUpdate: true to all setOption calls
+          Also enforce max 60 data points per series.
+       ----------------------------------------------------------------------- */
+    function patchECharts() {
+      function tryPatch() {
+        if (typeof echartsRiskTrendInstance === 'undefined') { setTimeout(tryPatch, 500); return; }
+
+        // Wrap renderRiskTrendChart and renderDriftDistChart to use lazyUpdate
+        const origRiskTrend = window.renderRiskTrendChart;
+        window.renderRiskTrendChart = function() {
+          if (!echartsRiskTrendInstance) return;
+          // Call original to build option, then use lazy update
+          const origSetOption = echartsRiskTrendInstance.setOption.bind(echartsRiskTrendInstance);
+          echartsRiskTrendInstance.setOption = function(opt) {
+            // Cap series data to 60 points
+            if (opt && opt.series) {
+              opt.series.forEach(s => {
+                if (Array.isArray(s.data) && s.data.length > 60) {
+                  s.data = s.data.slice(-60);
+                }
+              });
+            }
+            return origSetOption(opt, { lazyUpdate: true });
+          };
+          if (origRiskTrend) origRiskTrend();
+          echartsRiskTrendInstance.setOption = origSetOption;
+        };
+
+        const origDriftDist = window.renderDriftDistChart;
+        window.renderDriftDistChart = function() {
+          if (!echartsDriftDistInstance) return;
+          const origSetOption = echartsDriftDistInstance.setOption.bind(echartsDriftDistInstance);
+          echartsDriftDistInstance.setOption = function(opt) {
+            if (opt && opt.series) {
+              opt.series.forEach(s => {
+                if (Array.isArray(s.data) && s.data.length > 60) {
+                  s.data = s.data.slice(-60);
+                }
+              });
+            }
+            return origSetOption(opt, { lazyUpdate: true });
+          };
+          if (origDriftDist) origDriftDist();
+          echartsDriftDistInstance.setOption = origSetOption;
+        };
+
+        console.log('[Perf] ECharts patched with lazyUpdate:true and 60-point cap.');
+      }
+      tryPatch();
+    }
+
+    /* -----------------------------------------------------------------------
+       7. LIVE SECURITY FEED — cap at 30 rows
+       ----------------------------------------------------------------------- */
+    function patchSecurityFeed() {
+      function tryPatch() {
+        if (typeof renderLiveSecurityFeed === 'undefined') { setTimeout(tryPatch, 400); return; }
+        const orig = window.renderLiveSecurityFeed;
+        window.renderLiveSecurityFeed = function(isNewEvent) {
+          // Ensure feed never exceeds 30 events
+          if (state && state.auditFeed && state.auditFeed.length > 30) {
+            state.auditFeed = state.auditFeed.slice(0, 30);
+          }
+          orig(isNewEvent);
+        };
+        console.log('[Perf] Security feed capped at 30 rows.');
+      }
+      tryPatch();
+    }
+
+    /* -----------------------------------------------------------------------
+       8. SIMULATION — enforce min 1000ms between ticks (max 1 tick/sec)
+       ----------------------------------------------------------------------- */
+    function patchSimulation() {
+      function tryPatch() {
+        if (typeof scheduleNextSimTick === 'undefined') { setTimeout(tryPatch, 400); return; }
+        window.scheduleNextSimTick = function(immediate) {
+          if (!state.simActive || state.walkthroughActive) return;
+          if (state.simTimeoutId) clearTimeout(state.simTimeoutId);
+          // Enforce minimum 1000ms between ticks (max 1/sec)
+          const delay = immediate ? 1000 : Math.max(1000, 1500 + Math.floor(simPrng() * 1500));
+          state.simTimeoutId = setTimeout(runNextSimulationTick, delay);
+        };
+        console.log('[Perf] Simulation throttled to max 1 tick/sec.');
+      }
+      tryPatch();
+    }
+
+    /* -----------------------------------------------------------------------
+       9. REDUCE EFFECTS — also stop globe rotation and particles
+       ----------------------------------------------------------------------- */
+    function patchReduceEffects() {
+      function tryPatch() {
+        if (typeof toggleReduceEffects === 'undefined') { setTimeout(tryPatch, 400); return; }
+        const orig = window.toggleReduceEffects;
+        window.toggleReduceEffects = function(isReduced) {
+          orig(isReduced);
+
+          // Stop/resume globe auto-rotation
+          if (defenceGlobeInstance) {
+            try {
+              const controls = defenceGlobeInstance.controls();
+              if (controls) {
+                controls.autoRotate = !isReduced && (state.globeViewMode !== 'india');
+              }
+            } catch(e) {}
+          }
+
+          // Clear/resume constellation by letting the tick check reducedEffects
+          // (already handled in constellationTick above)
+
+          // Stop/resume ambient particles
+          if (isReduced) {
+            if (typeof ambientParticlesAnimId !== 'undefined' && ambientParticlesAnimId) {
+              cancelAnimationFrame(ambientParticlesAnimId);
+              ambientParticlesAnimId = null;
+            }
+          }
+        };
+        console.log('[Perf] toggleReduceEffects patched to stop globe rotation and particles.');
+      }
+      tryPatch();
+    }
+
+    /* -----------------------------------------------------------------------
+       10. PAGE SWITCH CLEANUP — clear stale listeners and animation state
+       ----------------------------------------------------------------------- */
+    function patchSectionSwitch() {
+      function tryPatch() {
+        if (typeof activateSectionDirect === 'undefined') { setTimeout(tryPatch, 400); return; }
+        const orig = window.activateSectionDirect;
+        window.activateSectionDirect = function(secNum) {
+          orig(secNum);
+
+          // Pause globe when not on section 0
+          if (defenceGlobeInstance) {
+            try {
+              const pauseFn = defenceGlobeInstance.pauseAnimation;
+              const resumeFn = defenceGlobeInstance.resumeAnimation;
+              if (secNum === 0) {
+                if (resumeFn) resumeFn.call(defenceGlobeInstance);
+              } else {
+                if (pauseFn) pauseFn.call(defenceGlobeInstance);
+              }
+            } catch(e) {}
+          }
+
+          // Only update ECharts on sections where they're visible
+          // (already handled by initOverviewECharts being called on section 0)
+        };
+        console.log('[Perf] activateSectionDirect patched for lifecycle cleanup.');
+      }
+      tryPatch();
+    }
+
+    /* -----------------------------------------------------------------------
+       11. AURORA — freeze blobs when tab is hidden (already done via CSS),
+           but also stop animation when reducedEffects. The aurora is
+           CSS-keyframe-animated, running on compositor thread — keep it,
+           but ensure it pauses via the existing body.tab-hidden class.
+           For Reduce Effects, we already hide the aurora-mesh.
+       ----------------------------------------------------------------------- */
+    // Nothing extra needed — CSS already handles it via:
+    //   body.reduced-effects .aurora-mesh { display:none }
+    //   body.tab-hidden .aurora-blob { animation-play-state:paused }
+
+    /* -----------------------------------------------------------------------
+       INIT: Run all patches after DOMContentLoaded
+       ----------------------------------------------------------------------- */
+    function runAllPatches() {
+      patchConstellation();
+      patchPipeline();
+      patchGlobe();
+      patchGlobeArcFiring();
+      patchECharts();
+      patchSecurityFeed();
+      patchSimulation();
+      patchReduceEffects();
+      patchSectionSwitch();
+      console.log('[Perf] All 60fps performance patches scheduled.');
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', runAllPatches);
+    } else {
+      // Delay to let original DOMContentLoaded handlers run first
+      setTimeout(runAllPatches, 100);
+    }
+
+  })();
+  </script>
+
 
   <!-- ========================================================================
        OPERATIONAL DOMAIN COMMAND PALETTE OVERLAY (CTRL+K / CMD+K)
