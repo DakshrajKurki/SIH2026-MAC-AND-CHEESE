@@ -5999,6 +5999,9 @@
               <div>
                 <div class="card-title">Cryptographic Model Passport</div>
                 <div class="card-subtitle">Canonical identity binding weights binary, topology configuration, and declared runtime environment</div>
+                <div id="passportPrototypeNote" style="font-size:0.75rem; color:var(--text-ink-muted); margin-top:4px; font-style:italic;">
+                  Reference model for the prototype; any vendor ONNX model can be passported the same way.
+                </div>
               </div>
               <div style="display:flex; align-items:center; gap:8px;">
                 <span id="passportVerifyChip" class="chip chip-pass">✓ PASSPORT VERIFIED</span>
@@ -6015,7 +6018,7 @@
                     🛡️ Golden Model (squeezenet1.1.onnx)
                   </button>
                   <button id="btnModelTampered" class="segment-btn" onclick="selectModelBinary('tampered')" title="Load tampered model copy with 1 byte modified">
-                    ⚠️ Tampered Model (1 Byte Altered)
+                    ⚠️ Tampered Model (squeezenet1.1_tampered.onnx)
                   </button>
                 </div>
               </div>
@@ -6031,11 +6034,11 @@
             <div class="grid-4" style="margin-bottom: 12px;">
               <div style="background:var(--bg-surface-elevated); padding:12px 14px; border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
                 <div style="font-size:0.7rem; color:var(--text-ink-muted); text-transform:uppercase; font-weight:700;">Architecture</div>
-                <div id="passportArch" style="font-weight:700; color:var(--text-ink-dark); margin-top:2px;">SqueezeNet 1.1</div>
+                <div id="passportArch" style="font-weight:700; color:var(--text-ink-dark); margin-top:2px;">SqueezeNet 1.1 (ImageNet classifier)</div>
               </div>
               <div style="background:var(--bg-surface-elevated); padding:12px 14px; border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
-                <div style="font-size:0.7rem; color:var(--text-ink-muted); text-transform:uppercase; font-weight:700;">Deployment Target</div>
-                <div id="passportTarget" style="font-weight:700; color:var(--text-ink-dark); margin-top:2px;">ONNX Runtime Web / Wasm SIMD</div>
+                <div style="font-size:0.7rem; color:var(--text-ink-muted); text-transform:uppercase; font-weight:700;">Deployment</div>
+                <div id="passportTarget" style="font-weight:700; color:var(--text-ink-dark); margin-top:2px;">ONNX Runtime Web (CPU / WASM)</div>
               </div>
               <div style="background:var(--bg-surface-elevated); padding:12px 14px; border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
                 <div style="font-size:0.7rem; color:var(--text-ink-muted); text-transform:uppercase; font-weight:700;">Weights Serialization</div>
@@ -8936,8 +8939,8 @@
       modelVerificationPassed: true,
       registeredModelHash: '1eeff551a67ae8d565ca33b572fc4b66e3ef357b0eb2863bb9ff47a918cc4088',
       modelMetadata: {
-        architecture: "SqueezeNet 1.1 (ImageNet Classifier)",
-        target: "ONNX Runtime Web / Wasm SIMD",
+        architecture: "SqueezeNet 1.1 (ImageNet classifier)",
+        target: "ONNX Runtime Web (CPU / WASM)",
         goldenFile: "assets/models/squeezenet1.1.onnx",
         tamperedFile: "assets/models/squeezenet1.1_tampered.onnx",
         inputShape: "[1, 3, 224, 224] (NCHW)",
@@ -14179,8 +14182,7 @@
       if (type === 'tampered') {
         showToast("Tampered Model Selected: 1 byte modified at offset 1000. Passport verification failed in red.", "error");
       } else {
-        const p = DOMAIN_PROFILES[state.currentDomain] || DOMAIN_PROFILES.defence;
-        showToast(`Golden Model Selected: ${p.modelArch} certified binary.`, "success");
+        showToast("Golden Model Selected: SqueezeNet 1.1 certified binary.", "success");
       }
     }
 
@@ -14226,17 +14228,22 @@
       const hashNote = document.getElementById('passportHashStatusNote');
       const alignmentChip = document.getElementById('stage2AlignmentChip');
 
-      const goldenWeights = p.weightsFile || "model_golden.onnx";
-      const tamperedWeights = goldenWeights.replace(/\.(onnx|engine)/, '_tampered.$1');
+      const goldenWeights = "squeezenet1.1.onnx";
+      const tamperedWeights = "squeezenet1.1_tampered.onnx";
 
-      if (archElem) archElem.textContent = p.modelArch || state.modelMetadata.architecture;
-      if (targetElem) targetElem.textContent = p.target || state.modelMetadata.target;
+      if (archElem) archElem.textContent = "SqueezeNet 1.1 (ImageNet classifier)";
+      if (targetElem) targetElem.textContent = "ONNX Runtime Web (CPU / WASM)";
       if (weightsElem) weightsElem.textContent = isTampered ? tamperedWeights : goldenWeights;
 
       const btnGolden = document.getElementById('btnModelGolden');
       if (btnGolden) {
-        btnGolden.title = `Load golden ${p.modelArch} weights (registered)`;
+        btnGolden.title = "Load golden SqueezeNet 1.1 ONNX weights (registered)";
         btnGolden.innerHTML = `🛡️ Golden Model (${goldenWeights})`;
+      }
+      const btnTampered = document.getElementById('btnModelTampered');
+      if (btnTampered) {
+        btnTampered.title = "Load tampered model copy with 1 byte modified";
+        btnTampered.innerHTML = `⚠️ Tampered Model (${tamperedWeights})`;
       }
 
       if (accessElem) {
