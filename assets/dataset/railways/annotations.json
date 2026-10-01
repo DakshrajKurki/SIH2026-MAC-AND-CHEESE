@@ -1,0 +1,1002 @@
+{
+  "info": {
+    "description": "TrustLens Railways \u00b7 Track Anomaly Detection Training Dataset",
+    "version": "1.0",
+    "year": 2026,
+    "contributor": "RDSO, CRIS, Northern Railway, ICF, External Sensor Vendor",
+    "date_created": "2026-09-30"
+  },
+  "licenses": [
+    {
+      "id": 1,
+      "name": "Restricted Railway Safety Evaluation License",
+      "url": ""
+    }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "name": "clear_track",
+      "supercategory": "track_geometry"
+    },
+    {
+      "id": 2,
+      "name": "rail_surface_defect",
+      "supercategory": "track_surface"
+    },
+    {
+      "id": 3,
+      "name": "joint_misalignment",
+      "supercategory": "infrastructure"
+    },
+    {
+      "id": 4,
+      "name": "foreign_obstruction",
+      "supercategory": "hazard"
+    }
+  ],
+  "images": [
+    {
+      "id": 1,
+      "file_name": "c01_rdso/img_001.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "RDSO (Railway Research Standards)",
+      "contributor_id": "C-01",
+      "batch": "Batch-01",
+      "file_size": 2126,
+      "sha256": "dbcc87b8a303ace732ff023e56b0ad09577a83861fafc6a4de87a0d4ddc045f8"
+    },
+    {
+      "id": 2,
+      "file_name": "c01_rdso/img_002.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "RDSO (Railway Research Standards)",
+      "contributor_id": "C-01",
+      "batch": "Batch-01",
+      "file_size": 2218,
+      "sha256": "5a472bcfaf45a2eadf897300197dc2890164f5d080cdb50fd74b52367b924d5c"
+    },
+    {
+      "id": 3,
+      "file_name": "c01_rdso/img_003.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "RDSO (Railway Research Standards)",
+      "contributor_id": "C-01",
+      "batch": "Batch-01",
+      "file_size": 2673,
+      "sha256": "eb5e67f1b74d01d1e3b3049daef68ec62a015ba5b1859c40250fd14f60d28215"
+    },
+    {
+      "id": 4,
+      "file_name": "c01_rdso/img_004.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "RDSO (Railway Research Standards)",
+      "contributor_id": "C-01",
+      "batch": "Batch-01",
+      "file_size": 2353,
+      "sha256": "f2ad1d995302da9c6639525fc06aea50b47489c41b2e9c03fe3df4cd4d7fda6b"
+    },
+    {
+      "id": 5,
+      "file_name": "c01_rdso/img_005.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "RDSO (Railway Research Standards)",
+      "contributor_id": "C-01",
+      "batch": "Batch-01",
+      "file_size": 2209,
+      "sha256": "9d347201339321dd32d70178b16cfb0de400355bd7e7ce9f39efbae873b799b4"
+    },
+    {
+      "id": 6,
+      "file_name": "c01_rdso/img_006.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "RDSO (Railway Research Standards)",
+      "contributor_id": "C-01",
+      "batch": "Batch-01",
+      "file_size": 1854,
+      "sha256": "d6ec37f5c19f4a4df980466c385e7d3cdbc931d53660e97b89581d4858c42051"
+    },
+    {
+      "id": 7,
+      "file_name": "c02_cris/img_007.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "CRIS (Centre for Railway Information)",
+      "contributor_id": "C-02",
+      "batch": "Batch-02",
+      "file_size": 2000,
+      "sha256": "f5f39fc4f2989e15fd956f610f2d71be563164c36697106896f4cb102fff33c5"
+    },
+    {
+      "id": 8,
+      "file_name": "c02_cris/img_008.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "CRIS (Centre for Railway Information)",
+      "contributor_id": "C-02",
+      "batch": "Batch-02",
+      "file_size": 2771,
+      "sha256": "90f01f6153ba2c5b52f982105571d427d14cedae41646aeef8a0a5074a469aa6"
+    },
+    {
+      "id": 9,
+      "file_name": "c02_cris/img_009.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "CRIS (Centre for Railway Information)",
+      "contributor_id": "C-02",
+      "batch": "Batch-02",
+      "file_size": 2670,
+      "sha256": "d87a218f916555d4998c01cecb314e96c1bc1584c02b9a10092e2dba1aa32693"
+    },
+    {
+      "id": 10,
+      "file_name": "c02_cris/img_010.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "CRIS (Centre for Railway Information)",
+      "contributor_id": "C-02",
+      "batch": "Batch-02",
+      "file_size": 2470,
+      "sha256": "d95c8c00ae231e06b5805e21ccdab1d01fcfd2df9f8bc3a5f6577b9bf80ea759"
+    },
+    {
+      "id": 11,
+      "file_name": "c02_cris/img_011.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "CRIS (Centre for Railway Information)",
+      "contributor_id": "C-02",
+      "batch": "Batch-02",
+      "file_size": 3239,
+      "sha256": "7731487a8d81d352b0e10c3a3fc1e89c7f2464269668d274cf85b01d98de5d4e"
+    },
+    {
+      "id": 12,
+      "file_name": "c02_cris/img_012.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "CRIS (Centre for Railway Information)",
+      "contributor_id": "C-02",
+      "batch": "Batch-02",
+      "file_size": 2214,
+      "sha256": "082c6a4e1a581200f02126ee66fe8513fc64fab91ea65033b4609e02d8236e7c"
+    },
+    {
+      "id": 13,
+      "file_name": "c03_nr/img_013.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "Northern Railway (Corridor Telemetry)",
+      "contributor_id": "C-03",
+      "batch": "Batch-03",
+      "file_size": 1941,
+      "sha256": "a7fd5acbd671bf6005332204c26d00423a7af709a181b64131b7357966293535"
+    },
+    {
+      "id": 14,
+      "file_name": "c03_nr/img_014.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "Northern Railway (Corridor Telemetry)",
+      "contributor_id": "C-03",
+      "batch": "Batch-03",
+      "file_size": 2930,
+      "sha256": "707fcd6af733d787267626cb096cbad9829b945b3653bb40ad563d74bd063303"
+    },
+    {
+      "id": 15,
+      "file_name": "c03_nr/img_015.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "Northern Railway (Corridor Telemetry)",
+      "contributor_id": "C-03",
+      "batch": "Batch-03",
+      "file_size": 2120,
+      "sha256": "de866e7f01990749ec21859328d36f97d76d36f5f21b5328f7fa4bf60e295578"
+    },
+    {
+      "id": 16,
+      "file_name": "c03_nr/img_016.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "Northern Railway (Corridor Telemetry)",
+      "contributor_id": "C-03",
+      "batch": "Batch-03",
+      "file_size": 2462,
+      "sha256": "35a89c477ec680acc3e1ad836301105cede7e8a37dcc973a2db4cf6a2fc7ff1e"
+    },
+    {
+      "id": 17,
+      "file_name": "c03_nr/img_017.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "Northern Railway (Corridor Telemetry)",
+      "contributor_id": "C-03",
+      "batch": "Batch-03",
+      "file_size": 2076,
+      "sha256": "c67e783289355ff9b011c21b692e40d6baac0849b8d0f4bea1a197afaad7620e"
+    },
+    {
+      "id": 18,
+      "file_name": "c03_nr/img_018.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "Northern Railway (Corridor Telemetry)",
+      "contributor_id": "C-03",
+      "batch": "Batch-03",
+      "file_size": 2116,
+      "sha256": "844b0ddf98d065c7f2e80a761df2482ae32460fe26616374b2a4cbc05c9e044c"
+    },
+    {
+      "id": 19,
+      "file_name": "c04_icf/img_019.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "ICF (Coach Factory Dynamic Sensors)",
+      "contributor_id": "C-04",
+      "batch": "Batch-04",
+      "file_size": 2212,
+      "sha256": "7b64b87b70ce825efb984dd2782e96ec50457f2e8b356667c875bb51bc225900"
+    },
+    {
+      "id": 20,
+      "file_name": "c04_icf/img_020.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "ICF (Coach Factory Dynamic Sensors)",
+      "contributor_id": "C-04",
+      "batch": "Batch-04",
+      "file_size": 2206,
+      "sha256": "81c1b4a88be6d77d34aabbfe73e22b02b2788fdbb62247d543dba977c4a67edb"
+    },
+    {
+      "id": 21,
+      "file_name": "c04_icf/img_021.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "ICF (Coach Factory Dynamic Sensors)",
+      "contributor_id": "C-04",
+      "batch": "Batch-04",
+      "file_size": 2748,
+      "sha256": "185d736f477a449606b06d9d6adc2a9670b7a7bc1097a1919566b580c2e44131"
+    },
+    {
+      "id": 22,
+      "file_name": "c04_icf/img_022.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "ICF (Coach Factory Dynamic Sensors)",
+      "contributor_id": "C-04",
+      "batch": "Batch-04",
+      "file_size": 2764,
+      "sha256": "80e2bf9d2afa4901905527d5143e086a76a2de7fcb6de59c05ad8dfc130101ed"
+    },
+    {
+      "id": 23,
+      "file_name": "c04_icf/img_023.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "ICF (Coach Factory Dynamic Sensors)",
+      "contributor_id": "C-04",
+      "batch": "Batch-04",
+      "file_size": 2383,
+      "sha256": "450bb4646d35c523b66b5bfdcf7fcb4636c12d1cd8c6500b46012e8c82e6e7f3"
+    },
+    {
+      "id": 24,
+      "file_name": "c04_icf/img_024.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "ICF (Coach Factory Dynamic Sensors)",
+      "contributor_id": "C-04",
+      "batch": "Batch-04",
+      "file_size": 4260,
+      "sha256": "1dfdc2e2ff3fe9ce73e32fb38d89101ee233d985502a41ec5f846a85d30c165d"
+    },
+    {
+      "id": 25,
+      "file_name": "c04_icf/img_025.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "ICF (Coach Factory Dynamic Sensors)",
+      "contributor_id": "C-04",
+      "batch": "Batch-04",
+      "file_size": 2123,
+      "sha256": "4ce84169ebc10328735748819e5108ca75eb0b6a693edeba42e19b6dd14a4e09"
+    },
+    {
+      "id": 26,
+      "file_name": "c04_icf/img_026.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "ICF (Coach Factory Dynamic Sensors)",
+      "contributor_id": "C-04",
+      "batch": "Batch-04",
+      "file_size": 2123,
+      "sha256": "4ce84169ebc10328735748819e5108ca75eb0b6a693edeba42e19b6dd14a4e09"
+    },
+    {
+      "id": 27,
+      "file_name": "c04_icf/img_027.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "ICF (Coach Factory Dynamic Sensors)",
+      "contributor_id": "C-04",
+      "batch": "Batch-04",
+      "file_size": 2424,
+      "sha256": "a5f3c8adac561eb2037f23a963af36eb06ea13c01f80ba07a313f1507a9bb661"
+    },
+    {
+      "id": 28,
+      "file_name": "c04_icf/img_028.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "ICF (Coach Factory Dynamic Sensors)",
+      "contributor_id": "C-04",
+      "batch": "Batch-04",
+      "file_size": 2424,
+      "sha256": "a5f3c8adac561eb2037f23a963af36eb06ea13c01f80ba07a313f1507a9bb661"
+    },
+    {
+      "id": 29,
+      "file_name": "c04_icf/img_029.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "ICF (Coach Factory Dynamic Sensors)",
+      "contributor_id": "C-04",
+      "batch": "Batch-04",
+      "file_size": 2102,
+      "sha256": "bd188ec8c51784d385406de82ed7d87e04f7e51e3dd0772ddb9ee42976e62281"
+    },
+    {
+      "id": 30,
+      "file_name": "c05_vendor/img_030.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "External Sensor Vendor (C-05 Edge)",
+      "contributor_id": "C-05",
+      "batch": "Batch-05",
+      "file_size": 1865,
+      "sha256": "42a6b6805cd919fb7b82bc0a147794b7c086068a684fb0911d949e85e788150f"
+    },
+    {
+      "id": 31,
+      "file_name": "c05_vendor/img_031.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "External Sensor Vendor (C-05 Edge)",
+      "contributor_id": "C-05",
+      "batch": "Batch-05",
+      "file_size": 2486,
+      "sha256": "04e9e5dd6517807083114f6dc42d00f6411fb6ed767f8e08dfca445136114b23"
+    },
+    {
+      "id": 32,
+      "file_name": "c05_vendor/img_032.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "External Sensor Vendor (C-05 Edge)",
+      "contributor_id": "C-05",
+      "batch": "Batch-05",
+      "file_size": 2645,
+      "sha256": "d0504567f1d53071340e1807f6e1ce27b12df7137032b2ce8f61f9f3406fbec6"
+    },
+    {
+      "id": 33,
+      "file_name": "c05_vendor/img_033.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "External Sensor Vendor (C-05 Edge)",
+      "contributor_id": "C-05",
+      "batch": "Batch-05",
+      "file_size": 1785,
+      "sha256": "37ec118a094026aea7c970901ad28a2921b08b0cc64b32d1b8add4f311ebdd2f"
+    },
+    {
+      "id": 34,
+      "file_name": "c05_vendor/img_034.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "External Sensor Vendor (C-05 Edge)",
+      "contributor_id": "C-05",
+      "batch": "Batch-05",
+      "file_size": 2243,
+      "sha256": "18224777e565bc244cd9dfc234954188ae642750ba12132e6174ca605673a9bc"
+    },
+    {
+      "id": 35,
+      "file_name": "c05_vendor/img_035.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "External Sensor Vendor (C-05 Edge)",
+      "contributor_id": "C-05",
+      "batch": "Batch-05",
+      "file_size": 2385,
+      "sha256": "11fcc8336b7864fa7bf0eafaf011e3f24d99c9ff4ede3ab4610990f3e17f5286"
+    },
+    {
+      "id": 36,
+      "file_name": "c05_vendor/img_036.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "External Sensor Vendor (C-05 Edge)",
+      "contributor_id": "C-05",
+      "batch": "Batch-05",
+      "file_size": 2342,
+      "sha256": "97644e470f8707c52b0d11736ce6471d75b3a0f6bfcfd267fa94e531309bcd99"
+    },
+    {
+      "id": 37,
+      "file_name": "c05_vendor/img_037.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "External Sensor Vendor (C-05 Edge)",
+      "contributor_id": "C-05",
+      "batch": "Batch-05",
+      "file_size": 2342,
+      "sha256": "97644e470f8707c52b0d11736ce6471d75b3a0f6bfcfd267fa94e531309bcd99"
+    },
+    {
+      "id": 38,
+      "file_name": "c05_vendor/img_038.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "External Sensor Vendor (C-05 Edge)",
+      "contributor_id": "C-05",
+      "batch": "Batch-05",
+      "file_size": 3148,
+      "sha256": "8ed5570f7179ac9470f0c1a4fdfcc7229bc6dc48a29fe5781a7452baa196e803"
+    },
+    {
+      "id": 39,
+      "file_name": "c05_vendor/img_039.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "External Sensor Vendor (C-05 Edge)",
+      "contributor_id": "C-05",
+      "batch": "Batch-05",
+      "file_size": 2586,
+      "sha256": "72037350c98bd4baeef1d51cf020c11504bfaa6196f6626a322b10315e8c4688"
+    },
+    {
+      "id": 40,
+      "file_name": "c05_vendor/img_040.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "External Sensor Vendor (C-05 Edge)",
+      "contributor_id": "C-05",
+      "batch": "Batch-05",
+      "file_size": 2967,
+      "sha256": "4281149afd8a31a1cbbd692c1deb07f4ea986569e79877a39d7075e46f08f643"
+    }
+  ],
+  "annotations": [
+    {
+      "id": 1,
+      "image_id": 1,
+      "category_id": 1,
+      "bbox": [
+        30,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 2,
+      "image_id": 2,
+      "category_id": 1,
+      "bbox": [
+        40,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 3,
+      "image_id": 3,
+      "category_id": 1,
+      "bbox": [
+        20,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 4,
+      "image_id": 4,
+      "category_id": 1,
+      "bbox": [
+        30,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 5,
+      "image_id": 5,
+      "category_id": 1,
+      "bbox": [
+        40,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 6,
+      "image_id": 6,
+      "category_id": 1,
+      "bbox": [
+        20,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 7,
+      "image_id": 7,
+      "category_id": 2,
+      "bbox": [
+        30,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 8,
+      "image_id": 8,
+      "category_id": 2,
+      "bbox": [
+        40,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 9,
+      "image_id": 9,
+      "category_id": 2,
+      "bbox": [
+        20,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 10,
+      "image_id": 10,
+      "category_id": 2,
+      "bbox": [
+        30,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 11,
+      "image_id": 11,
+      "category_id": 2,
+      "bbox": [
+        40,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 12,
+      "image_id": 12,
+      "category_id": 2,
+      "bbox": [
+        20,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 13,
+      "image_id": 13,
+      "category_id": 2,
+      "bbox": [
+        30,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 14,
+      "image_id": 14,
+      "category_id": 2,
+      "bbox": [
+        40,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 15,
+      "image_id": 15,
+      "category_id": 2,
+      "bbox": [
+        20,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 16,
+      "image_id": 16,
+      "category_id": 2,
+      "bbox": [
+        30,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 17,
+      "image_id": 17,
+      "category_id": 2,
+      "bbox": [
+        40,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 18,
+      "image_id": 18,
+      "category_id": 2,
+      "bbox": [
+        20,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 19,
+      "image_id": 19,
+      "category_id": 3,
+      "bbox": [
+        30,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 20,
+      "image_id": 20,
+      "category_id": 3,
+      "bbox": [
+        40,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 21,
+      "image_id": 21,
+      "category_id": 3,
+      "bbox": [
+        20,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 22,
+      "image_id": 22,
+      "category_id": 3,
+      "bbox": [
+        30,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 23,
+      "image_id": 23,
+      "category_id": 3,
+      "bbox": [
+        40,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 24,
+      "image_id": 24,
+      "category_id": 3,
+      "bbox": [
+        20,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 25,
+      "image_id": 25,
+      "category_id": 3,
+      "bbox": [
+        30,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 26,
+      "image_id": 26,
+      "category_id": 3,
+      "bbox": [
+        40,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 27,
+      "image_id": 27,
+      "category_id": 3,
+      "bbox": [
+        20,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 28,
+      "image_id": 28,
+      "category_id": 3,
+      "bbox": [
+        30,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 29,
+      "image_id": 29,
+      "category_id": 3,
+      "bbox": [
+        40,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 30,
+      "image_id": 30,
+      "category_id": 4,
+      "bbox": [
+        20,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 31,
+      "image_id": 31,
+      "category_id": 4,
+      "bbox": [
+        30,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 32,
+      "image_id": 32,
+      "category_id": 4,
+      "bbox": [
+        40,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 33,
+      "image_id": 33,
+      "category_id": 4,
+      "bbox": [
+        20,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 34,
+      "image_id": 34,
+      "category_id": 4,
+      "bbox": [
+        30,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 35,
+      "image_id": 35,
+      "category_id": 4,
+      "bbox": [
+        40,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 36,
+      "image_id": 36,
+      "category_id": 4,
+      "bbox": [
+        20,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 37,
+      "image_id": 37,
+      "category_id": 4,
+      "bbox": [
+        30,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 38,
+      "image_id": 38,
+      "category_id": 4,
+      "bbox": [
+        40,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 39,
+      "image_id": 39,
+      "category_id": 999,
+      "bbox": [
+        24,
+        24,
+        50,
+        50
+      ],
+      "area": 2500,
+      "iscrowd": 0
+    },
+    {
+      "id": 40,
+      "image_id": 40,
+      "category_id": 4,
+      "bbox": [
+        100,
+        95,
+        45,
+        40
+      ],
+      "area": 1800,
+      "iscrowd": 0
+    }
+  ]
+}

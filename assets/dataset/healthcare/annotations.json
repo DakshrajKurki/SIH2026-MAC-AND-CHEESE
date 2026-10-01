@@ -1,0 +1,1002 @@
+{
+  "info": {
+    "description": "TrustLens Healthcare \u00b7 Cardiology Diagnostics Training Dataset",
+    "version": "1.0",
+    "year": 2026,
+    "contributor": "AIIMS, PGIMER, CMC, Tata Memorial, External Imaging Vendor",
+    "date_created": "2026-09-30"
+  },
+  "licenses": [
+    {
+      "id": 1,
+      "name": "Restricted Clinical Diagnostics Evaluation License",
+      "url": ""
+    }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "name": "normal_sinus",
+      "supercategory": "cardiology"
+    },
+    {
+      "id": 2,
+      "name": "arrhythmia",
+      "supercategory": "cardiology"
+    },
+    {
+      "id": 3,
+      "name": "ischemia",
+      "supercategory": "cardiology"
+    },
+    {
+      "id": 4,
+      "name": "conduction_defect",
+      "supercategory": "cardiology"
+    }
+  ],
+  "images": [
+    {
+      "id": 1,
+      "file_name": "c01_aiims/img_001.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "AIIMS (Central Cardiology Telemetry)",
+      "contributor_id": "C-01",
+      "batch": "Batch-01",
+      "file_size": 2196,
+      "sha256": "de236838995c55c157c4bb458439482d2bf57bca9ceda17aae61f3906315facb"
+    },
+    {
+      "id": 2,
+      "file_name": "c01_aiims/img_002.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "AIIMS (Central Cardiology Telemetry)",
+      "contributor_id": "C-01",
+      "batch": "Batch-01",
+      "file_size": 2474,
+      "sha256": "af2c5fcdf75ac9bcaadd0888152cfeb1e6b9a67be6bcff910f66bd32b800c35a"
+    },
+    {
+      "id": 3,
+      "file_name": "c01_aiims/img_003.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "AIIMS (Central Cardiology Telemetry)",
+      "contributor_id": "C-01",
+      "batch": "Batch-01",
+      "file_size": 1984,
+      "sha256": "63a8441a6e5f0bc560f5d04e612d9d506b291e6e38cc5eda433c5c6d871bbe4e"
+    },
+    {
+      "id": 4,
+      "file_name": "c01_aiims/img_004.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "AIIMS (Central Cardiology Telemetry)",
+      "contributor_id": "C-01",
+      "batch": "Batch-01",
+      "file_size": 2499,
+      "sha256": "501f79b296105d8e1d6f6dba3435d94c32a668946e0617985d4a65c36fe81d50"
+    },
+    {
+      "id": 5,
+      "file_name": "c01_aiims/img_005.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "AIIMS (Central Cardiology Telemetry)",
+      "contributor_id": "C-01",
+      "batch": "Batch-01",
+      "file_size": 2533,
+      "sha256": "602e9a2adcf7efef317e82b87ef30edafcab3551d60167867e47da30ce7125d8"
+    },
+    {
+      "id": 6,
+      "file_name": "c01_aiims/img_006.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "AIIMS (Central Cardiology Telemetry)",
+      "contributor_id": "C-01",
+      "batch": "Batch-01",
+      "file_size": 2468,
+      "sha256": "e3b572bd744079f859122b0657415c5f8dc47b8a64bc36dc0814d82c04fc1705"
+    },
+    {
+      "id": 7,
+      "file_name": "c02_pgimer/img_007.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "PGIMER (Cardiology & Electrophysiology)",
+      "contributor_id": "C-02",
+      "batch": "Batch-02",
+      "file_size": 2571,
+      "sha256": "2fb9c0df0b1adc34bef7b31643faadb3ce2a21c0ffcb192189c2b28a3da1279d"
+    },
+    {
+      "id": 8,
+      "file_name": "c02_pgimer/img_008.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "PGIMER (Cardiology & Electrophysiology)",
+      "contributor_id": "C-02",
+      "batch": "Batch-02",
+      "file_size": 2604,
+      "sha256": "aa062d1f2a06a4a78fa431d782235dc1f2ee7d97d04b9bc501fdadceb6732bff"
+    },
+    {
+      "id": 9,
+      "file_name": "c02_pgimer/img_009.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "PGIMER (Cardiology & Electrophysiology)",
+      "contributor_id": "C-02",
+      "batch": "Batch-02",
+      "file_size": 1961,
+      "sha256": "2fde69e8ca5832976fc5e157991eb7b0eb9453631cb29558137414acbf4eb8fe"
+    },
+    {
+      "id": 10,
+      "file_name": "c02_pgimer/img_010.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "PGIMER (Cardiology & Electrophysiology)",
+      "contributor_id": "C-02",
+      "batch": "Batch-02",
+      "file_size": 2117,
+      "sha256": "1ace65dfca375f2164c4b3eeb2404b196dad1daf84289eaa095776632cd4b78a"
+    },
+    {
+      "id": 11,
+      "file_name": "c02_pgimer/img_011.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "PGIMER (Cardiology & Electrophysiology)",
+      "contributor_id": "C-02",
+      "batch": "Batch-02",
+      "file_size": 2132,
+      "sha256": "5b14e530c0abf1562999cf31dd7234a1284e9ed21cb8881b39b1dbd56c968cc9"
+    },
+    {
+      "id": 12,
+      "file_name": "c02_pgimer/img_012.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "PGIMER (Cardiology & Electrophysiology)",
+      "contributor_id": "C-02",
+      "batch": "Batch-02",
+      "file_size": 2925,
+      "sha256": "d0344fc091a47317e66e4f3a9c45a70a80bee45a015c4aa201e56eef004b8680"
+    },
+    {
+      "id": 13,
+      "file_name": "c03_cmc/img_013.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "CMC (Clinical Waveform Registry)",
+      "contributor_id": "C-03",
+      "batch": "Batch-03",
+      "file_size": 1885,
+      "sha256": "19127faa8cf2fc3e71b0c229f290da810a27e78d70e0bd9295e2540342ed945b"
+    },
+    {
+      "id": 14,
+      "file_name": "c03_cmc/img_014.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "CMC (Clinical Waveform Registry)",
+      "contributor_id": "C-03",
+      "batch": "Batch-03",
+      "file_size": 2274,
+      "sha256": "85be3d9705db1e59647d86f3f259329c162dfa80deeedb6fece87977e8628feb"
+    },
+    {
+      "id": 15,
+      "file_name": "c03_cmc/img_015.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "CMC (Clinical Waveform Registry)",
+      "contributor_id": "C-03",
+      "batch": "Batch-03",
+      "file_size": 2873,
+      "sha256": "32c2f60505b4c54bbc4b3f114c8f81c822b20b19e2cb4fee3ec4fc4ff2666490"
+    },
+    {
+      "id": 16,
+      "file_name": "c03_cmc/img_016.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "CMC (Clinical Waveform Registry)",
+      "contributor_id": "C-03",
+      "batch": "Batch-03",
+      "file_size": 1902,
+      "sha256": "82bdd13e10fe1e98870719981224c12dc8c9f441631c84c6e0369375a009c061"
+    },
+    {
+      "id": 17,
+      "file_name": "c03_cmc/img_017.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "CMC (Clinical Waveform Registry)",
+      "contributor_id": "C-03",
+      "batch": "Batch-03",
+      "file_size": 2292,
+      "sha256": "4e6b64e758245bfc609486252206d70cf81282906340308afbe55ce9d21cc072"
+    },
+    {
+      "id": 18,
+      "file_name": "c03_cmc/img_018.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "CMC (Clinical Waveform Registry)",
+      "contributor_id": "C-03",
+      "batch": "Batch-03",
+      "file_size": 2495,
+      "sha256": "bb7a96079815f9d0b1da3410c5dbff8ff20c61487e4c6deb19cfdc164d4443d8"
+    },
+    {
+      "id": 19,
+      "file_name": "c04_tata/img_019.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "Tata Memorial (Cardiovascular Pathology)",
+      "contributor_id": "C-04",
+      "batch": "Batch-04",
+      "file_size": 2427,
+      "sha256": "c4ad26b87848938df083f723e497972561ba0cf93f6044dbdd1b37b7d231ba95"
+    },
+    {
+      "id": 20,
+      "file_name": "c04_tata/img_020.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "Tata Memorial (Cardiovascular Pathology)",
+      "contributor_id": "C-04",
+      "batch": "Batch-04",
+      "file_size": 2432,
+      "sha256": "6d3e35f075c5cf0e292148c778934291793b0ee2d5d733394fc7afaab7ea8533"
+    },
+    {
+      "id": 21,
+      "file_name": "c04_tata/img_021.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "Tata Memorial (Cardiovascular Pathology)",
+      "contributor_id": "C-04",
+      "batch": "Batch-04",
+      "file_size": 1791,
+      "sha256": "ba7f80b65b3b853f3c39a799b6259b3aebdab17e5ff82d382e4d5a8a3f3ab026"
+    },
+    {
+      "id": 22,
+      "file_name": "c04_tata/img_022.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "Tata Memorial (Cardiovascular Pathology)",
+      "contributor_id": "C-04",
+      "batch": "Batch-04",
+      "file_size": 1796,
+      "sha256": "495be0153aebd82977cf4ba8bae8cad98f9e1fb788081ce1f6f152d2935e0232"
+    },
+    {
+      "id": 23,
+      "file_name": "c04_tata/img_023.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "Tata Memorial (Cardiovascular Pathology)",
+      "contributor_id": "C-04",
+      "batch": "Batch-04",
+      "file_size": 2201,
+      "sha256": "73d3ae691adc60c636e55bcdaa1466516cfa5af1530813033c5415e32c410c5b"
+    },
+    {
+      "id": 24,
+      "file_name": "c04_tata/img_024.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "Tata Memorial (Cardiovascular Pathology)",
+      "contributor_id": "C-04",
+      "batch": "Batch-04",
+      "file_size": 4282,
+      "sha256": "2a8c9f0560eeb3985da335c6bcb52a44bca6ba578e312ac226ad3ba43fdb6410"
+    },
+    {
+      "id": 25,
+      "file_name": "c04_tata/img_025.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "Tata Memorial (Cardiovascular Pathology)",
+      "contributor_id": "C-04",
+      "batch": "Batch-04",
+      "file_size": 1595,
+      "sha256": "22358b97d3258f8331648c3fba2030b92f7c0ef48912565d9ee6b8fd01bbbdf4"
+    },
+    {
+      "id": 26,
+      "file_name": "c04_tata/img_026.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "Tata Memorial (Cardiovascular Pathology)",
+      "contributor_id": "C-04",
+      "batch": "Batch-04",
+      "file_size": 1595,
+      "sha256": "22358b97d3258f8331648c3fba2030b92f7c0ef48912565d9ee6b8fd01bbbdf4"
+    },
+    {
+      "id": 27,
+      "file_name": "c04_tata/img_027.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "Tata Memorial (Cardiovascular Pathology)",
+      "contributor_id": "C-04",
+      "batch": "Batch-04",
+      "file_size": 1880,
+      "sha256": "c2c874d1d102e922113eca252dec21854bdc3793b1e5cd3f2337d1e41d1a435f"
+    },
+    {
+      "id": 28,
+      "file_name": "c04_tata/img_028.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "Tata Memorial (Cardiovascular Pathology)",
+      "contributor_id": "C-04",
+      "batch": "Batch-04",
+      "file_size": 1880,
+      "sha256": "c2c874d1d102e922113eca252dec21854bdc3793b1e5cd3f2337d1e41d1a435f"
+    },
+    {
+      "id": 29,
+      "file_name": "c04_tata/img_029.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "Tata Memorial (Cardiovascular Pathology)",
+      "contributor_id": "C-04",
+      "batch": "Batch-04",
+      "file_size": 2283,
+      "sha256": "222629c316a457112e6c02908c8189fad1388eae462eb43f0d268ecb306ec264"
+    },
+    {
+      "id": 30,
+      "file_name": "c05_vendor/img_030.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "External Imaging Vendor (C-05 Edge)",
+      "contributor_id": "C-05",
+      "batch": "Batch-05",
+      "file_size": 2291,
+      "sha256": "5f239c90c3b25f4cda53f94a4c289d3f540f0ef43d85b2a5cf2f31192ca96ef5"
+    },
+    {
+      "id": 31,
+      "file_name": "c05_vendor/img_031.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "External Imaging Vendor (C-05 Edge)",
+      "contributor_id": "C-05",
+      "batch": "Batch-05",
+      "file_size": 2500,
+      "sha256": "c671ca5fadf3941a5acee749c0eadc543b95817b8e1dbbcf2d8657a45c772402"
+    },
+    {
+      "id": 32,
+      "file_name": "c05_vendor/img_032.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "External Imaging Vendor (C-05 Edge)",
+      "contributor_id": "C-05",
+      "batch": "Batch-05",
+      "file_size": 2155,
+      "sha256": "1d5682594efcbf9d6c882af297345d489030f98b6dd4e7a7a66b3feadc415c3c"
+    },
+    {
+      "id": 33,
+      "file_name": "c05_vendor/img_033.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "External Imaging Vendor (C-05 Edge)",
+      "contributor_id": "C-05",
+      "batch": "Batch-05",
+      "file_size": 2614,
+      "sha256": "07f6fa1010043bdf6a8857e2aeb9e1d52f922a66bc00a9fd17827782b1643a5f"
+    },
+    {
+      "id": 34,
+      "file_name": "c05_vendor/img_034.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "External Imaging Vendor (C-05 Edge)",
+      "contributor_id": "C-05",
+      "batch": "Batch-05",
+      "file_size": 2477,
+      "sha256": "9955c62bf21da0d23edc0d4ae8706191b81e7aa2e5b9f72286fa880ebdec71bd"
+    },
+    {
+      "id": 35,
+      "file_name": "c05_vendor/img_035.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "External Imaging Vendor (C-05 Edge)",
+      "contributor_id": "C-05",
+      "batch": "Batch-05",
+      "file_size": 2367,
+      "sha256": "902cd981393801278dcd7208df78bc99117bbc96dd500973b1b9dcd2f2d3de1c"
+    },
+    {
+      "id": 36,
+      "file_name": "c05_vendor/img_036.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "External Imaging Vendor (C-05 Edge)",
+      "contributor_id": "C-05",
+      "batch": "Batch-05",
+      "file_size": 2579,
+      "sha256": "377e487d6aeaec96a25124e0a6bc056cd064a7c6e2a5cdb8bcdc65fd4b133b5f"
+    },
+    {
+      "id": 37,
+      "file_name": "c05_vendor/img_037.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "External Imaging Vendor (C-05 Edge)",
+      "contributor_id": "C-05",
+      "batch": "Batch-05",
+      "file_size": 2579,
+      "sha256": "377e487d6aeaec96a25124e0a6bc056cd064a7c6e2a5cdb8bcdc65fd4b133b5f"
+    },
+    {
+      "id": 38,
+      "file_name": "c05_vendor/img_038.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "External Imaging Vendor (C-05 Edge)",
+      "contributor_id": "C-05",
+      "batch": "Batch-05",
+      "file_size": 2916,
+      "sha256": "3e8d0a1c11039d6aa47f4f1a0cf01d3bc7e8e3d911420be0129a593ed26f7165"
+    },
+    {
+      "id": 39,
+      "file_name": "c05_vendor/img_039.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "External Imaging Vendor (C-05 Edge)",
+      "contributor_id": "C-05",
+      "batch": "Batch-05",
+      "file_size": 2485,
+      "sha256": "ce11431e1e1b57e9266b1f68315a3f4a6f3cdb2d4cd91022a75507fd9e07e319"
+    },
+    {
+      "id": 40,
+      "file_name": "c05_vendor/img_040.png",
+      "width": 128,
+      "height": 128,
+      "contributor": "External Imaging Vendor (C-05 Edge)",
+      "contributor_id": "C-05",
+      "batch": "Batch-05",
+      "file_size": 1784,
+      "sha256": "352787260548f7368a9317604e53d4ae796214d79c992ae1b328df7effe22393"
+    }
+  ],
+  "annotations": [
+    {
+      "id": 1,
+      "image_id": 1,
+      "category_id": 1,
+      "bbox": [
+        30,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 2,
+      "image_id": 2,
+      "category_id": 1,
+      "bbox": [
+        40,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 3,
+      "image_id": 3,
+      "category_id": 1,
+      "bbox": [
+        20,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 4,
+      "image_id": 4,
+      "category_id": 1,
+      "bbox": [
+        30,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 5,
+      "image_id": 5,
+      "category_id": 1,
+      "bbox": [
+        40,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 6,
+      "image_id": 6,
+      "category_id": 1,
+      "bbox": [
+        20,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 7,
+      "image_id": 7,
+      "category_id": 2,
+      "bbox": [
+        30,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 8,
+      "image_id": 8,
+      "category_id": 2,
+      "bbox": [
+        40,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 9,
+      "image_id": 9,
+      "category_id": 2,
+      "bbox": [
+        20,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 10,
+      "image_id": 10,
+      "category_id": 2,
+      "bbox": [
+        30,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 11,
+      "image_id": 11,
+      "category_id": 2,
+      "bbox": [
+        40,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 12,
+      "image_id": 12,
+      "category_id": 2,
+      "bbox": [
+        20,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 13,
+      "image_id": 13,
+      "category_id": 3,
+      "bbox": [
+        30,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 14,
+      "image_id": 14,
+      "category_id": 3,
+      "bbox": [
+        40,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 15,
+      "image_id": 15,
+      "category_id": 3,
+      "bbox": [
+        20,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 16,
+      "image_id": 16,
+      "category_id": 3,
+      "bbox": [
+        30,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 17,
+      "image_id": 17,
+      "category_id": 3,
+      "bbox": [
+        40,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 18,
+      "image_id": 18,
+      "category_id": 3,
+      "bbox": [
+        20,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 19,
+      "image_id": 19,
+      "category_id": 3,
+      "bbox": [
+        30,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 20,
+      "image_id": 20,
+      "category_id": 3,
+      "bbox": [
+        40,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 21,
+      "image_id": 21,
+      "category_id": 3,
+      "bbox": [
+        20,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 22,
+      "image_id": 22,
+      "category_id": 3,
+      "bbox": [
+        30,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 23,
+      "image_id": 23,
+      "category_id": 3,
+      "bbox": [
+        40,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 24,
+      "image_id": 24,
+      "category_id": 3,
+      "bbox": [
+        20,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 25,
+      "image_id": 25,
+      "category_id": 3,
+      "bbox": [
+        30,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 26,
+      "image_id": 26,
+      "category_id": 3,
+      "bbox": [
+        40,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 27,
+      "image_id": 27,
+      "category_id": 3,
+      "bbox": [
+        20,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 28,
+      "image_id": 28,
+      "category_id": 3,
+      "bbox": [
+        30,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 29,
+      "image_id": 29,
+      "category_id": 3,
+      "bbox": [
+        40,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 30,
+      "image_id": 30,
+      "category_id": 4,
+      "bbox": [
+        20,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 31,
+      "image_id": 31,
+      "category_id": 4,
+      "bbox": [
+        30,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 32,
+      "image_id": 32,
+      "category_id": 4,
+      "bbox": [
+        40,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 33,
+      "image_id": 33,
+      "category_id": 4,
+      "bbox": [
+        20,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 34,
+      "image_id": 34,
+      "category_id": 4,
+      "bbox": [
+        30,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 35,
+      "image_id": 35,
+      "category_id": 4,
+      "bbox": [
+        40,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 36,
+      "image_id": 36,
+      "category_id": 4,
+      "bbox": [
+        20,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 37,
+      "image_id": 37,
+      "category_id": 4,
+      "bbox": [
+        30,
+        32,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 38,
+      "image_id": 38,
+      "category_id": 4,
+      "bbox": [
+        40,
+        20,
+        45,
+        45
+      ],
+      "area": 2025,
+      "iscrowd": 0
+    },
+    {
+      "id": 39,
+      "image_id": 39,
+      "category_id": 999,
+      "bbox": [
+        24,
+        24,
+        50,
+        50
+      ],
+      "area": 2500,
+      "iscrowd": 0
+    },
+    {
+      "id": 40,
+      "image_id": 40,
+      "category_id": 4,
+      "bbox": [
+        100,
+        95,
+        45,
+        40
+      ],
+      "area": 1800,
+      "iscrowd": 0
+    }
+  ]
+}
