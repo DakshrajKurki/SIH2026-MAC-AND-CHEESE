@@ -1,0 +1,114 @@
+{
+  "setup": {
+    "dataset": "Fashion-MNIST",
+    "contributors": 5,
+    "samples_per_contributor": 6000,
+    "malicious": "C3",
+    "poison_rate": 0.1,
+    "target_class": 0,
+    "epochs": 4,
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "detector": "Spectral Signatures + contributor rollup, robust z > 3.5"
+  },
+  "runs": [
+    {
+      "seed": 0,
+      "unattacked_clean_accuracy": 0.887,
+      "unattacked_attack_success": 0.0112,
+      "poisoned_clean_accuracy": 0.8838,
+      "poisoned_attack_success": 0.9997,
+      "contributor_risk": [
+        0.063,
+        0.034,
+        0.785,
+        0.085,
+        0.06
+      ],
+      "contributor_robust_z": [
+        0.0,
+        -0.86,
+        21.84,
+        0.67,
+        -0.07
+      ],
+      "quarantined_contributors": [
+        "C3"
+      ],
+      "malicious_found_and_only_it_quarantined": true,
+      "honest_samples_kept_pct": 81.6,
+      "after_quarantine_clean_accuracy": 0.8618,
+      "after_quarantine_attack_success": 0.0064,
+      "runtime_s": 173.8
+    },
+    {
+      "seed": 1,
+      "unattacked_clean_accuracy": 0.8779,
+      "unattacked_attack_success": 0.0009,
+      "poisoned_clean_accuracy": 0.8811,
+      "poisoned_attack_success": 0.9708,
+      "contributor_risk": [
+        0.06,
+        0.063,
+        0.759,
+        0.029,
+        0.068
+      ],
+      "contributor_robust_z": [
+        -0.55,
+        0.0,
+        107.61,
+        -5.28,
+        0.67
+      ],
+      "quarantined_contributors": [
+        "C3"
+      ],
+      "malicious_found_and_only_it_quarantined": true,
+      "honest_samples_kept_pct": 81.6,
+      "after_quarantine_clean_accuracy": 0.8744,
+      "after_quarantine_attack_success": 0.0086,
+      "runtime_s": 138.0
+    },
+    {
+      "seed": 2,
+      "unattacked_clean_accuracy": 0.883,
+      "unattacked_attack_success": 0.0206,
+      "poisoned_clean_accuracy": 0.882,
+      "poisoned_attack_success": 0.9988,
+      "contributor_risk": [
+        0.052,
+        0.02,
+        0.67,
+        0.084,
+        0.049
+      ],
+      "contributor_robust_z": [
+        0.0,
+        -0.67,
+        13.06,
+        0.69,
+        -0.05
+      ],
+      "quarantined_contributors": [
+        "C3"
+      ],
+      "malicious_found_and_only_it_quarantined": true,
+      "honest_samples_kept_pct": 81.6,
+      "after_quarantine_clean_accuracy": 0.8494,
+      "after_quarantine_attack_success": 0.0064,
+      "runtime_s": 133.6
+    }
+  ],
+  "summary": {
+    "malicious_contributor_isolated": "3/3",
+    "attack_success_before_mean": 0.9898,
+    "attack_success_after_mean": 0.0071,
+    "clean_accuracy_unattacked_mean": 0.8826,
+    "clean_accuracy_poisoned_mean": 0.8823,
+    "clean_accuracy_after_quarantine_mean": 0.8619
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "setup": {
+    "reference_images": 2000,
+    "batch_size": 200,
+    "alpha": 0.01,
+    "test": "KS on per-image brightness, contrast & high-frequency energy (Bonferroni)"
+  },
+  "by_seed": [
+    {
+      "seed": 0,
+      "clean_false_alarm_rate": 0.01,
+      "brightness_detection_rate": 1.0,
+      "brightness_mean_wasserstein": 0.141,
+      "contrast_detection_rate": 1.0,
+      "contrast_mean_wasserstein": 0.0433,
+      "noise_detection_rate": 1.0,
+      "noise_mean_wasserstein": 0.0203,
+      "blur_detection_rate": 1.0,
+      "blur_mean_wasserstein": 0.0106
+    },
+    {
+      "seed": 1,
+      "clean_false_alarm_rate": 0.02,
+      "brightness_detection_rate": 1.0,
+      "brightness_mean_wasserstein": 0.143,
+      "contrast_detection_rate": 1.0,
+      "contrast_mean_wasserstein": 0.0419,
+      "noise_detection_rate": 1.0,
+      "noise_mean_wasserstein": 0.0206,
+      "blur_detection_rate": 1.0,
+      "blur_mean_wasserstein": 0.0109
+    },
+    {
+      "seed": 2,
+      "clean_false_alarm_rate": 0.0033,
+      "brightness_detection_rate": 1.0,
+      "brightness_mean_wasserstein": 0.1441,
+      "contrast_detection_rate": 1.0,
+      "contrast_mean_wasserstein": 0.0411,
+      "noise_detection_rate": 1.0,
+      "noise_mean_wasserstein": 0.0238,
+      "blur_detection_rate": 1.0,
+      "blur_mean_wasserstein": 0.0111
+    }
+  ],
+  "summary": {
+    "drifted_batches_detected_mean": 1.0,
+    "false_alarm_rate_mean": 0.0111
+  }
+}

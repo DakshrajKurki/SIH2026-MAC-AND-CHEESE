@@ -1,0 +1,15 @@
+{
+  "setup": {
+    "frame": "640x640x3 uint8",
+    "signature": "Ed25519 (RFC 8032, python cryptography)",
+    "hash": "SHA-256",
+    "machine": "x86_64 / 2 CPU / Python 3.11.15"
+  },
+  "summary": {
+    "seal_ms_per_frame_mean": 1.19,
+    "tampers_caught": "1000/1000",
+    "ledger_records_verified": 10000,
+    "ledger_full_verify_seconds": 1.269,
+    "ledger_chain_valid": true
+  }
+}
