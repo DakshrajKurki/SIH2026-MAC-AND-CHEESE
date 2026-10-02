@@ -12285,6 +12285,7 @@
 
     /* 3. HORIZONTAL LINKED BLOCK CHAIN ENGINE */
     function playGoldLockSound() {
+      return; // sound disabled
       try {
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
         if (!AudioCtx) return;
