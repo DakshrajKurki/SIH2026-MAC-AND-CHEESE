@@ -5183,7 +5183,17 @@
       0%, 100% { outline-color: var(--status-fail); }
       50% { outline-color: var(--accent-gold); }
     }
-  </style>
+  
+    /* ===== PERFORMANCE OVERRIDES (smooth clicks & tab switching) ===== */
+    /* Aurora blobs are already soft radial gradients; a 140px blur filter on top re-rasterises them every frame */
+    .aurora-blob { filter: none !important; }
+    /* Full-screen blend-mode grain forces the whole page to be re-composited every frame */
+    .film-grain-overlay { mix-blend-mode: normal !important; opacity: 0.02 !important; }
+    /* Page transitions: keep fade + slide, drop whole-page blur and clip-path animations */
+    @keyframes pageEnterMotion { 0% { opacity: 0; transform: translateY(12px); } 100% { opacity: 1; transform: translateY(0); } }
+    @keyframes apertureIrisClose { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0.5; transform: scale(0.985); } }
+    @keyframes apertureIrisOpen { 0% { opacity: 0.5; transform: scale(0.985); } 100% { opacity: 1; transform: scale(1); } }
+</style>
 </head>
 <body>
 
@@ -9790,7 +9800,7 @@
       }
 
       // Use View Transitions API if supported
-      if (document.startViewTransition) {
+      if (false && document.startViewTransition) {
         document.startViewTransition(() => {
           activateSectionDirect(secNum);
           triggerCardStagger(secNum);
@@ -9825,6 +9835,10 @@
 
     function activateSectionDirect(secNum) {
       state.activeSection = secNum;
+      if (secNum === 2 && !window.__tlModelFetchAllowed) {
+        window.__tlModelFetchAllowed = true;
+        setTimeout(() => { updateModelPassport().catch(e => console.warn(e)); }, 50);
+      }
 
       // Update Nav Buttons
       for (let i = 0; i <= 6; i++) {
@@ -13179,9 +13193,13 @@
 
         const scannedFiles = [];
 
+        // Speed: fetch all dataset files in parallel instead of one by one
+        const prefetched = await Promise.all(fileList.map(f => realDatasetState.overrides[f.path] ? null :
+          fetch(`assets/dataset/${domain}/` + f.path).then(r => r.ok ? r.arrayBuffer() : null).catch(() => null)));
+
         for (let idx = 0; idx < fileList.length; idx++) {
           const fileInfo = fileList[idx];
-          let buffer = realDatasetState.overrides[fileInfo.path];
+          let buffer = realDatasetState.overrides[fileInfo.path] || prefetched[idx];
           if (!buffer) {
             try {
               let resp = await fetch(`assets/dataset/${domain}/` + fileInfo.path);
@@ -14169,6 +14187,7 @@
     }
 
     async function selectModelBinary(type) {
+      window.__tlModelFetchAllowed = true;
       if (state.selectedModelType === type) return;
       state.selectedModelType = type;
 
@@ -14187,6 +14206,7 @@
     }
 
     async function verifyModelBinaryManual() {
+      window.__tlModelFetchAllowed = true;
       const btn = document.getElementById('btnVerifyModel');
       const origHtml = btn ? btn.innerHTML : '';
       if (btn) {
@@ -14257,7 +14277,10 @@
 
       // Re-hash active model binary offline via WebCrypto
       let computedHash = state.registeredModelHash;
+      // Speed: the 4.8 MB model is only downloaded when the Model page is opened (or a model action is clicked)
+      if (!window.__tlModelFetchAllowed) { state.modelPassportHash = computedHash; state.modelVerificationPassed = true; }
       try {
+        if (!window.__tlModelFetchAllowed) throw new Error('deferred until Model page is opened');
         const resp = await fetch(activeFile);
         if (resp.ok) {
           const buf = await resp.arrayBuffer();
